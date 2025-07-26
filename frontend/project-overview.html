@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Project Overview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-button {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #8B5CF6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .action-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #8B5CF6;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .stat-change.positive {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .stat-change.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .project-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .project-client {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .project-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-review {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .project-progress {
+            margin: 16px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .progress-percentage {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8B5CF6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B5CF6 0%, #7C3AED 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-deadline {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .project-team {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .team-avatars {
+            display: flex;
+            margin-left: -4px;
+        }
+
+        .team-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-left: -4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .team-count {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-left: 8px;
+        }
+
+        .permission-banner {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .permission-banner.hidden {
+            display: none;
+        }
+
+        .permission-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .permission-text {
+            flex: 1;
+            color: white;
+            font-weight: 600;
+        }
+
+        .upgrade-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .upgrade-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .action-button {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+
+        /* Chat Interface Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .chat-toggle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 8px 32px rgba(139, 92, 246, 0.3),
+                0 4px 16px rgba(139, 92, 246, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .chat-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(139, 92, 246, 0.4),
+                0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .chat-toggle-icon {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .chat-notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <a href="javascript:history.back()" class="back-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Dashboard
+                </a>
+                <div>
+                    <h1 class="page-title">Project Overview</h1>
+                    <p class="page-subtitle">Multi-agent project orchestration and management</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-button secondary" onclick="filterProjects()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                    </svg>
+                    Filter
+                </button>
+                <button class="action-button" onclick="createProject()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    New Project
+                </button>
+            </div>
+        </div>
+
+        <!-- Permission Banner (shown for limited access users) -->
+        <div id="permissionBanner" class="permission-banner hidden">
+            <svg class="permission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12l2 2 4-4"/>
+                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                <path d="M13 12h3"/>
+                <path d="M11 12H8"/>
+            </svg>
+            <span class="permission-text">Limited project access. Upgrade to see all projects and advanced management features.</span>
+            <a href="#" class="upgrade-button">Upgrade Now</a>
+        </div>
+
+        <!-- Project Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalProjects">12</div>
+                <div class="stat-label">Total Projects</div>
+                <span class="stat-change positive">+2 this month</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="activeProjects">9</div>
+                <div class="stat-label">Active Projects</div>
+                <span class="stat-change positive">87% on track</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="criticalProjects">3</div>
+                <div class="stat-label">Critical Attention</div>
+                <span class="stat-change negative">Needs review</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="completedProjects">24</div>
+                <div class="stat-label">Completed This Year</div>
+                <span class="stat-change positive">+15% vs last year</span>
+            </div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-container">
+        <button class="chat-toggle" onclick="toggleChat()">
+            <svg class="chat-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span class="chat-notification-badge">3</span>
+        </button>
+    </div>
+
+    <script>
+        // User permission simulation (would come from backend)
+        const userPermissions = {
+            tier: 'admin', // admin, staff, tier1, tier2, tier3
+            role: 'admin'
+        };
+
+        // Sample project data
+        const allProjects = [
+            {
+                id: 1,
+                title: "City Permit Application",
+                client: "Municipal Development Corp",
+                status: "critical",
+                progress: 75,
+                deadline: "3 days",
+                team: ["JD", "SM", "RK"],
+                visible: ["admin", "staff"]
+            },
+            {
+                id: 2,
+                title: "Residential Complex Design",
+                client: "Sunset Properties",
+                status: "active",
+                progress: 45,
+                deadline: "2 weeks",
+                team: ["AM", "TL"],
+                visible: ["admin", "staff", "tier3"]
+            },
+            {
+                id: 3,
+                title: "Commercial Zoning Review",
+                client: "Downtown Development",
+                status: "review",
+                progress: 90,
+                deadline: "1 week",
+                team: ["JD", "PW", "SM", "RK"],
+                visible: ["admin", "staff"]
+            },
+            {
+                id: 4,
+                title: "Environmental Impact Study",
+                client: "Green Valley LLC",
+                status: "active",
+                progress: 30,
+                deadline: "1 month",
+                team: ["AM", "TL", "PW"],
+                visible: ["admin", "staff", "tier3"]
+            },
+            {
+                id: 5,
+                title: "Historic District Renovation",
+                client: "Heritage Foundation",
+                status: "active",
+                progress: 60,
+                deadline: "3 weeks",
+                team: ["JD", "SM"],
+                visible: ["admin", "staff"]
+            },
+            {
+                id: 6,
+                title: "Affordable Housing Initiative",
+                client: "City Housing Authority",
+                status: "critical",
+                progress: 85,
+                deadline: "5 days",
+                team: ["AM", "TL", "RK", "PW"],
+                visible: ["admin", "staff"]
+            }
+        ];
+
+        function initializePage() {
+            checkPermissions();
+            loadProjects();
+        }
+
+        // Real project data integration with OBJX Intelligence Platform
+        let projectData = [];
+        let portfolioSummary = {};
+        
+        async function initializePage() {
+            await loadRealProjectData();
+            checkPermissions();
+        }
+
+        async function loadRealProjectData() {
+            try {
+                showLoadingState();
+                
+                const response = await fetch('/api/projects');
+                const result = await response.json();
+                
+                if (result.success) {
+                    projectData = result.projects;
+                    portfolioSummary = result.portfolio_summary;
+                    displayRealProjectData(result);
+                } else {
+                    showErrorState(result.message || 'Failed to load project data');
+                }
+            } catch (error) {
+                console.error('Error loading project data:', error);
+                showErrorState('Network error: Unable to load project data');
+            }
+        }
+        
+        function showLoadingState() {
+            const projectsGrid = document.getElementById('projectsGrid');
+            projectsGrid.innerHTML = `
+                <div class="loading-state" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <div class="loading-spinner" style="margin: 0 auto 16px; width: 40px; height: 40px; border: 3px solid rgba(139, 92, 246, 0.3); border-top: 3px solid #8B5CF6; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <p style="color: rgba(255, 255, 255, 0.8);">Loading real project data...</p>
+                </div>
+            `;
+        }
+        
+        function showErrorState(message) {
+            const projectsGrid = document.getElementById('projectsGrid');
+            projectsGrid.innerHTML = `
+                <div class="error-state" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <p style="color: #EF4444; margin-bottom: 16px;">⚠️ ${message}</p>
+                    <button onclick="loadRealProjectData()" style="background: #8B5CF6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Retry</button>
+                </div>
+            `;
+        }
+        
+        function displayRealProjectData(data) {
+            // Update portfolio statistics
+            updateRealStats(data.portfolio_summary);
+            
+            // Display projects
+            loadRealProjects(data.projects);
+            
+            // Display strategic insights
+            displayStrategicInsights(data.strategic_insights);
+        }
+        
+        function updateRealStats(summary) {
+            document.getElementById('totalProjects').textContent = summary.total_projects;
+            document.getElementById('activeProjects').textContent = summary.active_projects;
+            document.getElementById('criticalProjects').textContent = summary.critical_deadlines;
+            
+            // Add portfolio health indicator
+            const statsContainer = document.querySelector('.stats-grid');
+            if (!document.getElementById('portfolioHealth')) {
+                const healthStat = document.createElement('div');
+                healthStat.className = 'stat-card';
+                healthStat.innerHTML = `
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="portfolioHealth">${summary.portfolio_health}%</div>
+                        <div class="stat-label">Portfolio Health</div>
+                    </div>
+                `;
+                statsContainer.appendChild(healthStat);
+            } else {
+                document.getElementById('portfolioHealth').textContent = `${summary.portfolio_health}%`;
+            }
+        }
+        
+        function loadRealProjects(projects) {
+            const projectsGrid = document.getElementById('projectsGrid');
+            
+            if (!projects || projects.length === 0) {
+                projectsGrid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.6);">No projects found.</div>';
+                return;
+            }
+
+            projectsGrid.innerHTML = projects.map(project => `
+                <div class="project-card" onclick="openRealProject('${project.id}')">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">${project.name}</div>
+                            <div class="project-client">${project.address}</div>
+                        </div>
+                        <span class="project-status status-${project.status.replace('_', '-')}">${project.status.replace('_', ' ')}</span>
+                    </div>
+                    
+                    <div class="project-progress">
+                        <div class="progress-label">
+                            <span class="progress-text">Progress</span>
+                            <span class="progress-percentage">${project.progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${project.progress}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-details" style="margin: 12px 0; font-size: 13px; color: rgba(255, 255, 255, 0.7);">
+                        <div style="margin-bottom: 8px;">
+                            <strong>Scope:</strong> ${project.scope.substring(0, 80)}${project.scope.length > 80 ? '...' : ''}
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>Priority:</strong> <span style="color: ${getPriorityColor(project.priority)}; text-transform: capitalize;">${project.priority}</span>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <strong>Intelligence Score:</strong> ${project.intelligence_score}/100
+                        </div>
+                        <div>
+                            <strong>Next Deadline:</strong> ${formatDate(project.next_deadline)} 
+                            <span style="color: ${project.days_to_deadline <= 7 ? '#EF4444' : '#8B5CF6'};">(${project.days_to_deadline} days)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-meta">
+                        <div class="project-deadline">
+                            ${project.permits.length} permit${project.permits.length !== 1 ? 's' : ''} • 
+                            ${project.critical_items.length} critical item${project.critical_items.length !== 1 ? 's' : ''}
+                        </div>
+                        <div class="project-team">
+                            <div class="team-avatars">
+                                ${project.team.slice(0, 3).map(member => `<div class="team-avatar">${member.charAt(0)}</div>`).join('')}
+                                ${project.team.length > 3 ? `<div class="team-avatar">+${project.team.length - 3}</div>` : ''}
+                            </div>
+                            <span class="team-count">${project.team.length} member${project.team.length !== 1 ? 's' : ''}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function displayStrategicInsights(data) {
+            // Add strategic insights section if it doesn't exist
+            let insightsSection = document.getElementById('strategicInsights');
+            if (!insightsSection) {
+                insightsSection = document.createElement('div');
+                insightsSection.id = 'strategicInsights';
+                insightsSection.className = 'strategic-insights';
+                insightsSection.style.cssText = `
+                    margin-top: 32px;
+                    padding: 24px;
+                    background: rgba(139, 92, 246, 0.1);
+                    border: 1px solid rgba(139, 92, 246, 0.2);
+                    border-radius: 12px;
+                `;
+                
+                // Find the correct container - try multiple selectors
+                const container = document.querySelector('.container') || 
+                                document.querySelector('.main-content') || 
+                                document.querySelector('main') || 
+                                document.body;
+                
+                if (container) {
+                    container.appendChild(insightsSection);
+                } else {
+                    console.warn('Could not find container for strategic insights');
+                    return;
+                }
+            }
+            
+            insightsSection.innerHTML = `
+                <h3 style="color: #8B5CF6; margin-bottom: 16px; font-size: 18px;">📊 Strategic Intelligence Insights</h3>
+                
+                ${data.trinity_methodology ? `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                    ${data.trinity_methodology.clarify ? `
+                    <div style="background: rgba(74, 144, 226, 0.1); border: 1px solid rgba(74, 144, 226, 0.3); padding: 16px; border-radius: 8px;">
+                        <h4 style="color: #4A90E2; margin-bottom: 8px;">🎯 Clarify</h4>
+                        <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">
+                            ${data.trinity_methodology.clarify.focus}<br>
+                            Active Processes: ${data.trinity_methodology.clarify.active_processes}<br>
+                            Optimization: ${Math.round(data.trinity_methodology.clarify.optimization_score * 100)}%
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${data.trinity_methodology.compound ? `
+                    <div style="background: rgba(126, 211, 33, 0.1); border: 1px solid rgba(126, 211, 33, 0.3); padding: 16px; border-radius: 8px;">
+                        <h4 style="color: #7ED321; margin-bottom: 8px;">🔄 Compound</h4>
+                        <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">
+                            ${data.trinity_methodology.compound.focus}<br>
+                            Active Processes: ${data.trinity_methodology.compound.active_processes}<br>
+                            Optimization: ${Math.round(data.trinity_methodology.compound.optimization_score * 100)}%
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${data.trinity_methodology.create ? `
+                    <div style="background: rgba(245, 166, 35, 0.1); border: 1px solid rgba(245, 166, 35, 0.3); padding: 16px; border-radius: 8px;">
+                        <h4 style="color: #F5A623; margin-bottom: 8px;">✨ Create</h4>
+                        <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">
+                            ${data.trinity_methodology.create.focus}<br>
+                            Active Processes: ${data.trinity_methodology.create.active_processes}<br>
+                            Optimization: ${Math.round(data.trinity_methodology.create.optimization_score * 100)}%
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+                ` : ''}
+                
+                ${data.strategic_insights && data.strategic_insights.length > 0 ? `
+                <div style="margin-top: 20px;">
+                    <h4 style="color: #8B5CF6; margin-bottom: 12px;">Strategic Opportunities</h4>
+                    <div style="display: grid; gap: 12px;">
+                        ${data.strategic_insights.map(insight => `
+                            <div style="background: rgba(0, 0, 0, 0.3); padding: 16px; border-radius: 8px; border-left: 4px solid ${getInsightColor(insight.impact)};">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                                    <h5 style="color: ${getInsightColor(insight.impact)}; margin: 0; font-size: 16px;">${insight.title}</h5>
+                                    <span style="background: ${getInsightColor(insight.impact)}; color: #000; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; text-transform: uppercase;">${insight.impact}</span>
+                                </div>
+                                <p style="color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 14px;">${insight.description}</p>
+                                ${insight.trinity_category ? `<div style="margin-top: 8px;"><span style="background: rgba(139, 92, 246, 0.2); color: #8B5CF6; padding: 2px 8px; border-radius: 12px; font-size: 12px;">Trinity: ${insight.trinity_category}</span></div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+        }
+        
+        function getPriorityColor(priority) {
+            const colors = {
+                'critical': '#EF4444',
+                'high': '#F97316',
+                'medium': '#FBBF24',
+                'low': '#22C55E'
+            };
+            return colors[priority] || '#8B5CF6';
+        }
+        
+        function getRiskColor(riskLevel) {
+            const colors = {
+                'high': '#EF4444',
+                'medium': '#FBBF24',
+                'low': '#22C55E'
+            };
+            return colors[riskLevel] || '#8B5CF6';
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric' 
+            });
+        }
+        
+        function openRealProject(projectId) {
+            // Navigate to project detail page with real project ID
+            window.location.href = `project-detail.html?id=${projectId}`;
+        }
+
+        function checkPermissions() {
+            const banner = document.getElementById('permissionBanner');
+            
+            // Show permission banner for limited access users
+            if (userPermissions.tier === 'tier1' || userPermissions.tier === 'tier2') {
+                banner.classList.remove('hidden');
+            }
+        }
+
+        function getVisibleProjects() {
+            return projectData.filter(project => {
+                if (userPermissions.tier === 'admin') return true;
+                if (userPermissions.tier === 'staff') return true; // Staff can see all assigned projects
+                if (userPermissions.tier === 'tier3') return true;
+                if (userPermissions.tier === 'tier2') return projectData.indexOf(project) < 3; // Limited access
+                if (userPermissions.tier === 'tier1') return projectData.indexOf(project) < 1; // Very limited access
+                return false;
+            });
+        }
+
+        function openProject(projectId) {
+            // Navigate to project detail page
+            window.location.href = `project-detail.html?id=${projectId}`;
+        }
+
+        function createProject() {
+            if (userPermissions.tier === 'tier1' || userPermissions.tier === 'tier2') {
+                alert('Project creation requires Tier 3 or higher access. Please upgrade your account.');
+                return;
+            }
+            
+            // Open project creation modal or navigate to creation page
+            alert('Opening project creation interface...');
+        }
+
+        function filterProjects() {
+            // Open filter modal
+            alert('Opening project filters...');
+        }
+
+        function toggleChat() {
+            // Chat functionality would be implemented here
+            alert('Chat interface would open here');
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
+
+
+        
+        function getInsightColor(impact) {
+            switch(impact) {
+                case 'high': return '#EF4444';
+                case 'medium': return '#F59E0B';
+                case 'low': return '#10B981';
+                default: return '#8B5CF6';
+            }
+        }
+

@@ -1,0 +1,53 @@
+# OBJX Intelligence Platform - Deployment Requirements
+# Author: Manus AI
+# Date: July 25, 2025
+# Version: 1.0 - Production Ready
+
+# Core Flask Framework
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# Database (sqlite3 is built into Python)
+
+# AI and Memory Integration
+openai>=1.33.0
+anthropic>=0.7.8
+mem0ai>=0.0.8
+
+# HTTP Requests
+requests==2.31.0
+
+# Date and Time Utilities
+python-dateutil==2.8.2
+
+# JSON Processing
+jsonschema==4.19.1
+
+# Security
+cryptography==41.0.7
+bcrypt==4.0.1
+
+# Environment Management
+python-dotenv==1.0.0
+
+# Google Workspace Integration
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.1.1
+google-api-python-client==2.103.0
+
+# QuickBooks Integration (Optional)
+# python-quickbooks==0.9.3
+# intuitlib==1.1.0
+
+# Production Server
+gunicorn==21.2.0
+waitress==2.1.2
+
+# Monitoring and Logging
+structlog==23.2.0
+
+# Additional Utilities
+pytz==2023.3
+uuid==1.30
+

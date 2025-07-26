@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 48px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+        }
+
+        .logo svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .brand-name .accent {
+            color: #8B5CF6;
+            font-weight: 400;
+        }
+
+        .tagline {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .methodology {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 400;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+
+        .form-input:focus {
+            border-color: #8B5CF6;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
+            margin-bottom: 20px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .form-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-link {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .form-link:hover {
+            color: #8B5CF6;
+        }
+
+        .date-indicator {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .date-indicator .month {
+            font-weight: 500;
+        }
+
+        .design-credit {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 20px;
+                padding: 32px 24px;
+            }
+            
+            .theme-toggle,
+            .date-indicator,
+            .design-credit {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="theme-toggle">
+        🌙
+    </div>
+
+    <div class="login-container">
+        <div class="logo-container">
+            <div class="logo">
+                <img src="objx-dark-background.svg" alt="OBJX Logo" class="logo-dark" style="width: 48px; height: 48px;">
+                <img src="objx-light-background.svg" alt="OBJX Logo" class="logo-light" style="width: 48px; height: 48px; display: none;">
+            </div>
+            <div class="brand-name">
+                OBJX<span class="accent">Intelligence</span>
+            </div>
+            <div class="tagline">Strategic Intelligence Multiplier</div>
+            <div class="methodology">clarify • compound • create</div>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" class="form-input" placeholder="Enter your email address" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-button">Access Platform</button>
+
+            <div class="form-links">
+                <a href="#" class="form-link">Forgot Password?</a>
+                <a href="#" class="form-link">Request Access</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="design-credit">
+        objx.design
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        document.querySelector('.theme-toggle').addEventListener('click', function() {
+            // Future theme switching logic
+            console.log('Theme toggle clicked');
+        });
+
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple credential-based routing for demo
+            if (email === 'admin@objx.design' && password === 'admin123') {
+                window.location.href = '/dashboard_admin.html';
+            } else if (email === 'staff@objx.design' && password === 'staff123') {
+                window.location.href = '/dashboard_staff.html';
+            } else if (email === 'tier1@objx.design' && password === 'tier123') {
+                window.location.href = '/dashboard_tier1.html';
+            } else if (email === 'tier2@objx.design' && password === 'tier123') {
+                window.location.href = '/dashboard_tier2.html';
+            } else if (email === 'tier3@objx.design' && password === 'tier123') {
+                window.location.href = '/dashboard_tier3.html';
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
+

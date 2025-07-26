@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Task Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-button {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #8B5CF6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .action-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .permission-banner {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .permission-banner.hidden {
+            display: none;
+        }
+
+        .permission-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .permission-text {
+            flex: 1;
+            color: white;
+            font-weight: 600;
+        }
+
+        .upgrade-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .upgrade-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #8B5CF6;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .stat-change.positive {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .stat-change.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: #8B5CF6;
+        }
+
+        .task-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button.active {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border-color: #8B5CF6;
+            color: white;
+        }
+
+        .filter-button:hover {
+            border-color: rgba(139, 92, 246, 0.5);
+            color: white;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .task-item:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .task-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .task-project {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .task-priority {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .priority-high {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .priority-medium {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .priority-low {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9CA3AF;
+            border: 1px solid rgba(156, 163, 175, 0.3);
+        }
+
+        .task-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .task-assignee {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .assignee-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .assignee-name {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .task-due {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .task-due.overdue {
+            color: #EF4444;
+            font-weight: 600;
+        }
+
+        .task-due.today {
+            color: #FBBF24;
+            font-weight: 600;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quick-action {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .quick-action:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .quick-action-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
+            color: #8B5CF6;
+        }
+
+        .quick-action-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .quick-action-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .team-activity {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 14px;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .action-button {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .task-filters {
+                justify-content: center;
+            }
+        }
+
+        /* Chat Interface Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .chat-toggle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 8px 32px rgba(139, 92, 246, 0.3),
+                0 4px 16px rgba(139, 92, 246, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .chat-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(139, 92, 246, 0.4),
+                0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .chat-toggle-icon {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .chat-notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <a href="javascript:history.back()" class="back-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Dashboard
+                </a>
+                <div>
+                    <h1 class="page-title">Task Management</h1>
+                    <p class="page-subtitle">Advanced task coordination with multi-agent automation</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-button secondary" onclick="openTaskTemplates()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M9 9h6M9 15h6"/>
+                    </svg>
+                    Templates
+                </button>
+                <button class="action-button" onclick="createTask()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    New Task
+                </button>
+            </div>
+        </div>
+
+        <!-- Permission Banner (shown for limited access users) -->
+        <div id="permissionBanner" class="permission-banner hidden">
+            <svg class="permission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12l2 2 4-4"/>
+                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                <path d="M13 12h3"/>
+                <path d="M11 12H8"/>
+            </svg>
+            <span class="permission-text">Limited task access. Upgrade to see team tasks and advanced coordination features.</span>
+            <a href="#" class="upgrade-button">Upgrade Now</a>
+        </div>
+
+        <!-- Task Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalTasks">24</div>
+                <div class="stat-label">Total Tasks</div>
+                <span class="stat-change positive">+3 this week</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="activeTasks">16</div>
+                <div class="stat-label">Active Tasks</div>
+                <span class="stat-change positive">67% complete</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="overdueTasks">2</div>
+                <div class="stat-label">Overdue</div>
+                <span class="stat-change negative">Needs attention</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="completedTasks">8</div>
+                <div class="stat-label">Completed This Week</div>
+                <span class="stat-change positive">+25% vs last week</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-section">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                    Task Overview
+                </h2>
+
+                <div class="task-filters">
+                    <button class="filter-button active" onclick="filterTasks('all')">All Tasks</button>
+                    <button class="filter-button" onclick="filterTasks('my')">My Tasks</button>
+                    <button class="filter-button" onclick="filterTasks('team')">Team Tasks</button>
+                    <button class="filter-button" onclick="filterTasks('overdue')">Overdue</button>
+                    <button class="filter-button" onclick="filterTasks('today')">Due Today</button>
+                </div>
+
+                <div class="task-list" id="taskList">
+                    <!-- Tasks will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        </svg>
+                        Quick Actions
+                    </h2>
+                    <div class="quick-actions">
+                        <div class="quick-action" onclick="bulkAssign()">
+                            <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 010 7.75"/>
+                            </svg>
+                            <div class="quick-action-title">Bulk Assign</div>
+                            <div class="quick-action-desc">Assign multiple tasks to team members</div>
+                        </div>
+                        <div class="quick-action" onclick="generateReport()">
+                            <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                            <div class="quick-action-title">Generate Report</div>
+                            <div class="quick-action-desc">Create task completion reports</div>
+                        </div>
+                        <div class="quick-action" onclick="optimizeWorkflow()">
+                            <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <div class="quick-action-title">Optimize Workflow</div>
+                            <div class="quick-action-desc">AI-powered task optimization</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+                        </svg>
+                        Team Activity
+                    </h2>
+                    <div class="team-activity">
+                        <div class="activity-item">
+                            <div class="activity-avatar">JD</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Completed "Environmental Impact Assessment"</div>
+                                <div class="activity-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">SM</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Started working on "Zoning Compliance Review"</div>
+                                <div class="activity-time">4 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">RK</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Updated deadline for "Municipal Coordination"</div>
+                                <div class="activity-time">6 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">AM</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Added comments to "Documentation Review"</div>
+                                <div class="activity-time">1 day ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-avatar">TL</div>
+                            <div class="activity-content">
+                                <div class="activity-text">Completed "Site Plan Analysis"</div>
+                                <div class="activity-time">1 day ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-container">
+        <button class="chat-toggle" onclick="toggleChat()">
+            <svg class="chat-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span class="chat-notification-badge">3</span>
+        </button>
+    </div>
+
+    <script>
+        // User permission simulation (would come from backend)
+        const userPermissions = {
+            tier: 'admin', // admin, staff, tier1, tier2, tier3
+            role: 'admin'
+        };
+
+        // Sample task data
+        const allTasks = [
+            {
+                id: 1,
+                title: "Submit environmental impact assessment",
+                project: "City Permit Application",
+                priority: "critical",
+                assignee: { name: "John Doe", initials: "JD" },
+                due: "overdue",
+                dueText: "Overdue by 1 day",
+                visible: ["admin", "staff"]
+            },
+            {
+                id: 2,
+                title: "Review zoning compliance documentation",
+                project: "City Permit Application",
+                priority: "high",
+                assignee: { name: "Sarah Miller", initials: "SM" },
+                due: "today",
+                dueText: "Due today",
+                visible: ["admin", "staff"]
+            },
+            {
+                id: 3,
+                title: "Coordinate with municipal planning office",
+                project: "City Permit Application",
+                priority: "high",
+                assignee: { name: "Robert Kim", initials: "RK" },
+                due: "normal",
+                dueText: "Due in 2 days",
+                visible: ["admin", "staff"]
+            },
+            {
+                id: 4,
+                title: "Update project timeline documentation",
+                project: "Residential Complex Design",
+                priority: "medium",
+                assignee: { name: "Anna Martinez", initials: "AM" },
+                due: "normal",
+                dueText: "Due in 3 days",
+                visible: ["admin", "staff", "tier3"]
+            },
+            {
+                id: 5,
+                title: "Prepare client presentation materials",
+                project: "Commercial Zoning Review",
+                priority: "medium",
+                assignee: { name: "Tom Lee", initials: "TL" },
+                due: "normal",
+                dueText: "Due in 1 week",
+                visible: ["admin", "staff", "tier3"]
+            },
+            {
+                id: 6,
+                title: "Research building code requirements",
+                project: "Historic District Renovation",
+                priority: "low",
+                assignee: { name: "Paul Wilson", initials: "PW" },
+                due: "normal",
+                dueText: "Due in 2 weeks",
+                visible: ["admin", "staff", "tier2", "tier3"]
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function initializePage() {
+            checkPermissions();
+            loadTasks();
+        }
+
+        function checkPermissions() {
+            const banner = document.getElementById('permissionBanner');
+            
+            // Show permission banner for limited access users
+            if (userPermissions.tier === 'tier1') {
+                banner.classList.remove('hidden');
+            }
+
+            // Update stats based on permissions
+            updateStats();
+        }
+
+        function updateStats() {
+            const visibleTasks = getVisibleTasks();
+            
+            document.getElementById('totalTasks').textContent = visibleTasks.length;
+            document.getElementById('activeTasks').textContent = visibleTasks.filter(t => t.due !== 'completed').length;
+            document.getElementById('overdueTasks').textContent = visibleTasks.filter(t => t.due === 'overdue').length;
+        }
+
+        function getVisibleTasks() {
+            return allTasks.filter(task => {
+                if (userPermissions.tier === 'admin') return true;
+                if (userPermissions.tier === 'staff') return task.visible.includes('staff');
+                if (userPermissions.tier === 'tier3') return task.visible.includes('tier3');
+                if (userPermissions.tier === 'tier2') return task.visible.includes('tier2');
+                if (userPermissions.tier === 'tier1') return task.visible.includes('tier1');
+                return false;
+            });
+        }
+
+        function loadTasks() {
+            const taskList = document.getElementById('taskList');
+            let visibleTasks = getVisibleTasks();
+
+            // Apply current filter
+            if (currentFilter !== 'all') {
+                visibleTasks = visibleTasks.filter(task => {
+                    switch (currentFilter) {
+                        case 'my':
+                            return task.assignee.initials === 'JD'; // Current user simulation
+                        case 'team':
+                            return task.assignee.initials !== 'JD';
+                        case 'overdue':
+                            return task.due === 'overdue';
+                        case 'today':
+                            return task.due === 'today';
+                        default:
+                            return true;
+                    }
+                });
+            }
+
+            taskList.innerHTML = visibleTasks.map(task => `
+                <div class="task-item" onclick="openTask(${task.id})">
+                    <div class="task-header">
+                        <div>
+                            <div class="task-title">${task.title}</div>
+                            <div class="task-project">${task.project}</div>
+                        </div>
+                        <span class="task-priority priority-${task.priority}">${task.priority}</span>
+                    </div>
+                    
+                    <div class="task-meta">
+                        <div class="task-assignee">
+                            <div class="assignee-avatar">${task.assignee.initials}</div>
+                            <span class="assignee-name">${task.assignee.name}</span>
+                        </div>
+                        <div class="task-due ${task.due}">${task.dueText}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterTasks(filter) {
+            currentFilter = filter;
+            
+            // Update filter button states
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadTasks();
+        }
+
+        function openTask(taskId) {
+            alert(`Opening task ${taskId} details...`);
+        }
+
+        function createTask() {
+            if (userPermissions.tier === 'tier1') {
+                alert('Task creation requires Tier 2 or higher access. Please upgrade your account.');
+                return;
+            }
+            
+            alert('Opening task creation interface...');
+        }
+
+        function openTaskTemplates() {
+            if (userPermissions.tier === 'tier1' || userPermissions.tier === 'tier2') {
+                alert('Task templates require Tier 3 or higher access. Please upgrade your account.');
+                return;
+            }
+            
+            alert('Opening task templates...');
+        }
+
+        function bulkAssign() {
+            if (userPermissions.tier !== 'admin' && userPermissions.tier !== 'staff') {
+                alert('Bulk assignment requires Staff or Admin access.');
+                return;
+            }
+            
+            alert('Opening bulk assignment interface...');
+        }
+
+        function generateReport() {
+            alert('Generating task completion report...');
+        }
+
+        function optimizeWorkflow() {
+            if (userPermissions.tier === 'tier1') {
+                alert('Workflow optimization requires Tier 2 or higher access.');
+                return;
+            }
+            
+            alert('Running AI-powered workflow optimization...');
+        }
+
+        function toggleChat() {
+            alert('Chat interface would open here');
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
+

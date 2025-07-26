@@ -1,0 +1,52 @@
+# OBJX Platform - Core Dependencies
+# Trinity Architecture: Foundation + mem0 + Systematic Thinking
+
+# Web Framework
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# AI & Memory Services
+openai>=1.33.0
+anthropic>=0.7.8
+mem0ai==0.0.8
+
+# Utilities
+python-dotenv==1.0.0
+requests>=2.31.0
+pydantic>=2.7.3,<3.0.0
+
+# Production Server
+gunicorn==21.2.0
+
+# Document Generation
+reportlab==4.0.4
+fpdf2==2.7.6
+python-docx==0.8.11
+openpyxl==3.1.2
+python-pptx==0.6.21
+weasyprint==60.0
+markdown==3.5.1
+
+# Workflow & Automation
+schedule==1.2.0
+celery==5.3.4
+redis==5.0.1
+
+# Data Processing
+pandas==2.1.3
+matplotlib==3.8.2
+plotly==5.17.0
+seaborn==0.13.0
+
+# Web Scraping & APIs
+beautifulsoup4==4.12.2
+scrapy==2.11.0
+requests-html==0.10.0
+
+# Email & Notifications
+sendgrid==6.10.0
+
+# Optional: Enhanced Features
+# psycopg2-binary==2.9.7    # PostgreSQL support
+# prometheus-client==0.17.1 # Monitoring
+

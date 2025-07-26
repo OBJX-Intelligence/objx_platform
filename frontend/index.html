@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Strategic Intelligence Multiplier</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #8b5cf6;
+            --accent-primary: #9333ea;
+            --accent-secondary: #7c3aed;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(26, 26, 26, 0.8);
+            --border-primary: rgba(255, 255, 255, 0.1);
+            --border-secondary: rgba(255, 255, 255, 0.2);
+            --bg-card: rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --accent: #8b5cf6;
+            --accent-primary: #9333ea;
+            --accent-secondary: #7c3aed;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --border-primary: rgba(0, 0, 0, 0.1);
+            --border-secondary: rgba(0, 0, 0, 0.2);
+            --bg-card: rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.4;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dynamic Animations & Micro-Interactions */
+        @keyframes logoBreath {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.02); opacity: 0.25; }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        /* Enhanced Logo Animation */
+        .hero-logo {
+            animation: logoBreath 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-logo:hover {
+            animation-duration: 2s;
+            transform: scale(1.05);
+        }
+        
+        /* Dynamic Brand Text */
+        .hero-brand {
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        
+        .hero-tagline {
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+        
+        .hero-methodology {
+            animation: fadeInUp 1s ease-out 1.1s both;
+        }
+        
+        /* Enhanced Button Interactions */
+        .btn-primary, .btn-secondary {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before, .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before, .btn-secondary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .btn-primary:active, .btn-secondary:active {
+            transform: translateY(0px) scale(0.98);
+        }
+        
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Responsive Animation Adjustments */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-dark {
+            display: block !important;
+        }
+
+        .logo-light {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-dark {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-light {
+            display: block !important;
+        }
+
+        /* Ensure hero and footer logo images are properly sized */
+        .hero-logo img, .footer-logo img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+        }
+
+        .nav-brand {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-brand .accent {
+            color: var(--accent-primary);
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 16px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-secondary);
+            transform: translateY(-1px);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px 80px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 24px;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-branding {
+            margin-bottom: 48px;
+        }
+
+        .hero-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .hero-logo img {
+            width: 72px;
+            height: 72px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.4;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-branding {
+            margin-bottom: 48px;
+        }
+
+        .hero-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0px;
+        }
+
+        .hero-logo img {
+            width: 300px;
+            height: 300px;
+            filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.15));
+        }
+
+        .hero-brand-name {
+            font-size: clamp(64px, 10vw, 96px);
+            font-weight: 400;
+            letter-spacing: -3px;
+            margin-top: -25px;
+            margin-bottom: 16px;
+            line-height: 1.1;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .hero-brand-name .accent {
+            color: var(--accent-primary);
+            font-weight: 100;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .hero-tagline {
+            font-size: 24px;
+            color: var(--text-primary);
+            font-weight: 300;
+            margin-bottom: -10px;
+            letter-spacing: -0.3px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hero-methodology {
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 48px;
+            letter-spacing: 2px;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hero-methodology .dot {
+            color: var(--accent-primary);
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            font-weight: 300;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 18px 36px;
+            font-size: 20px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            letter-spacing: 0.1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            color: var(--text-primary);
+            padding: 18px 36px;
+            font-size: 20px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.1px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Light mode button enhancements */
+        [data-theme="light"] .btn-primary {
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+        }
+
+        [data-theme="light"] .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);
+        }
+
+        [data-theme="light"] .btn-secondary {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="light"] .btn-secondary:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Trinity Foundation Section */
+        .trinity {
+            padding: 120px 24px;
+            background: var(--bg-secondary);
+        }
+
+        .trinity-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .trinity-header {
+            margin-bottom: 80px;
+        }
+
+        .trinity-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .trinity-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .trinity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 48px;
+            margin-bottom: 80px;
+        }
+
+        .trinity-pillar {
+            text-align: center;
+        }
+
+        .trinity-number {
+            font-size: 120px;
+            font-weight: 200;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            letter-spacing: -4px;
+            opacity: 1;
+            text-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+        .trinity-number::before {
+            content: attr(data-number);
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 120px;
+            font-weight: 200;
+            color: rgba(139, 92, 246, 0.1);
+            z-index: -1;
+            transform: translate(4px, 4px);
+        }
+
+        .trinity-pillar-title {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+        }
+
+        .trinity-pillar-description {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.4;
+            font-weight: 300;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .trinity-explanation {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+        }
+
+        .trinity-text {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .features-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .features-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: var(--border-secondary);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 20px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 120px 0 80px;
+            background: var(--bg-primary);
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pricing-header {
+            margin-bottom: 40px;
+        }
+
+        .pricing-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .pricing-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .pricing-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .pricing-carousel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 40px;
+            transform: scale(0.75);
+            transform-origin: center;
+        }
+
+        .pricing-cards-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            overflow: visible;
+            width: 100%;
+            position: relative;
+            max-width: 1300px;
+            flex-wrap: nowrap;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-primary);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            padding: 40px 24px;
+            backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            min-width: 280px;
+            max-width: 300px;
+            opacity: 0.6;
+            transform: scale(0.9) translateY(20px);
+            flex-shrink: 0;
+        }
+
+        .pricing-card.active {
+            opacity: 1;
+            transform: scale(1) translateY(-10px);
+            border-color: var(--accent-primary);
+            background: rgba(139, 92, 246, 0.05);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-primary);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-tier {
+            font-size: 16px;
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .pricing-period {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            font-size: 15px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--accent-primary);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
+        }
+
+        .pricing-card:not(.featured) .pricing-cta {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-primary);
+        }
+
+        .pricing-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 80px 24px 40px;
+            border-top: 1px solid var(--border-primary);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .footer-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+        }
+
+        .footer-brand .accent {
+            color: var(--accent-primary);
+            font-weight: 400;
+        }
+
+        .footer-tagline {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-copyright {
+            color: var(--text-tertiary);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav">
+            <a href="#" class="nav-logo">
+                <img src="./objx-dark-background.svg" alt="OBJX Intelligence" class="logo-dark">
+                <img src="./objx-light-background.svg" alt="OBJX Intelligence" class="logo-light">
+                <span class="nav-brand">OBJX<span class="accent">Intelligence</span></span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#trinity" class="nav-link">Trinity Foundation</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+                <a href="login.html" class="nav-cta">Access Platform</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>✨</span>
+                The methodology that built a platform in 48 hours
+            </div>
+            
+            <!-- Large OBJX Branding -->
+            <div class="hero-branding">
+                <div class="hero-logo">
+                    <img src="objx-dark-background.svg" alt="OBJX Logo" class="logo-dark">
+                    <img src="objx-light-background.svg" alt="OBJX Logo" class="logo-light">
+                </div>
+                <h1 class="hero-brand-name hero-brand">
+                    OBJX<span class="accent">Intelligence</span>
+                </h1>
+                <p class="hero-tagline">Strategic Intelligence Multiplier</p>
+            </div>
+            
+            <p class="hero-methodology">
+                clarify <span class="dot">•</span> compound <span class="dot">•</span> create
+            </p>
+            
+            <p class="hero-description">
+                Stop using tools. Start thinking systematically.<br>
+                Experience intelligence that compounds over time.
+            </p>
+            
+            <div class="hero-actions">
+                <a href="login.html" class="btn-primary">
+                    Experience Intelligence
+                </a>
+                <a href="#trinity" class="btn-secondary">
+                    See Methodology
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trinity Foundation Section -->
+    <section class="trinity" id="trinity">
+        <div class="trinity-container">
+            <div class="trinity-header">
+                <h2 class="trinity-title">The Trinity Foundation</h2>
+                <p class="trinity-subtitle">
+                    Three pillars that transform how you approach any challenge
+                </p>
+            </div>
+            
+            <div class="trinity-grid">
+                <div class="trinity-pillar">
+                    <div class="trinity-number" data-number="01">01</div>
+                    <h3 class="trinity-pillar-title">Foundation</h3>
+                    <p class="trinity-pillar-description">
+                        Universal principles that guide systematic thinking across any domain or challenge
+                    </p>
+                </div>
+                
+                <div class="trinity-pillar">
+                    <div class="trinity-number" data-number="02">02</div>
+                    <h3 class="trinity-pillar-title">Memory</h3>
+                    <p class="trinity-pillar-description">
+                        Compound learning that builds intelligence over time, creating exponential value
+                    </p>
+                </div>
+                
+                <div class="trinity-pillar">
+                    <div class="trinity-number" data-number="03">03</div>
+                    <h3 class="trinity-pillar-title">Systematic Thinking</h3>
+                    <p class="trinity-pillar-description">
+                        Structured approach that transforms complex problems into clear, actionable solutions
+                    </p>
+                </div>
+            </div>
+            
+            <div class="trinity-explanation">
+                <p class="trinity-text">
+                    Unlike tools that give you answers, the Trinity Foundation teaches you to think systematically. 
+                    From these three pillars flows our practical methodology that transforms any challenge into 
+                    clear variables, contextual understanding, and actionable solutions. This creates intelligence 
+                    that compounds over time, making you exponentially more effective at solving any challenge you encounter.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-header">
+            <h2 class="features-title">Universal Application</h2>
+            <p class="features-subtitle">
+                How the Trinity Foundation works across any professional domain
+            </p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3 class="feature-title">Intelligence Multiplication</h3>
+                <p class="feature-description">
+                    Not just AI assistance - systematic thinking that amplifies your natural intelligence and decision-making capabilities.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">Compound Learning</h3>
+                <p class="feature-description">
+                    Every interaction builds upon previous knowledge, creating intelligence that becomes more valuable over time.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Systematic Approach</h3>
+                <p class="feature-description">
+                    Transform complex challenges into clear, actionable solutions through proven systematic thinking methodology.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3 class="feature-title">Universal Application</h3>
+                <p class="feature-description">
+                    Works across any industry, any challenge, any goal - because systematic thinking is universally applicable.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Proactive Intelligence</h3>
+                <p class="feature-description">
+                    Anticipates needs, identifies opportunities, and suggests optimizations before problems arise.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Exponential Results</h3>
+                <p class="feature-description">
+                    What takes others months, you'll accomplish in hours through systematic thinking acceleration.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="pricing-container">
+            <div class="pricing-header">
+                <h2 class="pricing-title">Choose Your Intelligence Level</h2>
+                <p class="pricing-subtitle">
+                    Progressive access to systematic thinking methodology
+                </p>
+            </div>
+            
+            <div class="pricing-carousel">
+                <button class="carousel-nav carousel-prev" onclick="previousTier()">‹</button>
+                <div class="pricing-cards-container">
+                    <div class="pricing-card" data-tier="0">
+                        <div class="pricing-tier">SYSTEMATIC THINKING</div>
+                        <div class="pricing-price">$99</div>
+                        <div class="pricing-period">per month</div>
+                        <ul class="pricing-features">
+                            <li>Basic systematic thinking access</li>
+                            <li>Chat-based problem solving</li>
+                            <li>Foundation methodology</li>
+                            <li>Simple analysis tools</li>
+                            <li>Community support</li>
+                        </ul>
+                        <button class="pricing-cta">START THINKING</button>
+                    </div>
+                    
+                    <div class="pricing-card featured active" data-tier="1">
+                        <div class="pricing-badge">Most Popular</div>
+                        <div class="pricing-tier">COMPOUND INTELLIGENCE</div>
+                        <div class="pricing-price">$299</div>
+                        <div class="pricing-period">per month</div>
+                        <ul class="pricing-features">
+                            <li>Project-based memory system</li>
+                            <li>Personal intelligence dashboard</li>
+                            <li>Advanced pattern recognition</li>
+                            <li>Proactive recommendations</li>
+                            <li>Priority support</li>
+                        </ul>
+                        <button class="pricing-cta">MULTIPLY INTELLIGENCE</button>
+                    </div>
+                    
+                    <div class="pricing-card" data-tier="2">
+                        <div class="pricing-tier">COMPLETE METHODOLOGY</div>
+                        <div class="pricing-price">$599</div>
+                        <div class="pricing-period">per month</div>
+                        <ul class="pricing-features">
+                            <li>Full document creation</li>
+                            <li>Visual intelligence outputs</li>
+                            <li>Complete methodology access</li>
+                            <li>Advanced integrations</li>
+                            <li>Dedicated support</li>
+                        </ul>
+                        <button class="pricing-cta">MASTER METHODOLOGY</button>
+                    </div>
+                    
+                    <div class="pricing-card" data-tier="3">
+                        <div class="pricing-tier">CUSTOM WHITE LABEL</div>
+                        <div class="pricing-price">Custom</div>
+                        <div class="pricing-period">enterprise pricing</div>
+                        <ul class="pricing-features">
+                            <li>Complete white-label solution</li>
+                            <li>Custom branding & domain</li>
+                            <li>Multi-tenant architecture</li>
+                            <li>API access & integrations</li>
+                            <li>Dedicated success manager</li>
+                        </ul>
+                        <button class="pricing-cta">CONTACT SALES</button>
+                    </div>
+                </div>
+                <button class="carousel-nav carousel-next" onclick="nextTier()">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="./objx-dark-background.svg" alt="OBJX Intelligence" class="logo-dark">
+                <img src="./objx-light-background.svg" alt="OBJX Intelligence" class="logo-light">
+                <span class="footer-brand">OBJX<span class="accent">Intelligence</span></span>
+            </div>
+            
+            <p class="footer-tagline">
+                Strategic Intelligence Multiplier
+            </p>
+            
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Documentation</a>
+                <a href="#" class="footer-link">Support</a>
+            </div>
+            
+            <p class="footer-copyright">
+                © 2025 OBJX Intelligence. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌙';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav-container');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(26, 26, 26, 0.95)';
+            } else {
+                nav.style.background = 'rgba(26, 26, 26, 0.8)';
+            }
+        });
+
+        // Pricing carousel functionality
+        let currentTier = 1; // Start with middle tier (Most Popular)
+        const totalTiers = 4;
+
+        function updateCarousel() {
+            const cards = document.querySelectorAll('.pricing-card');
+            cards.forEach((card, index) => {
+                card.classList.remove('active');
+                if (index === currentTier) {
+                    card.classList.add('active');
+                }
+            });
+        }
+
+        function nextTier() {
+            currentTier = (currentTier + 1) % totalTiers;
+            updateCarousel();
+        }
+
+        function previousTier() {
+            currentTier = (currentTier - 1 + totalTiers) % totalTiers;
+            updateCarousel();
+        }
+
+        // Initialize carousel
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCarousel();
+        });
+    </script>
+</body>
+</html>
+

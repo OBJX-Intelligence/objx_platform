@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Systematic Thinking Access</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Dynamic Animations & Micro-Interactions */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes logoBreath {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.02); opacity: 0.25; }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        /* Enhanced Logo Animation */
+        .logo {
+            animation: logoBreath 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            animation-duration: 2s;
+            transform: scale(1.05);
+        }
+        
+        /* Dynamic Content Loading */
+        .welcome-section h1 {
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .welcome-section p {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        
+        .methodology-text {
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        /* Enhanced Program Card Interactions */
+        .program-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: inherit;
+        }
+        
+        .program-card:hover::before {
+            opacity: 1;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 60px rgba(139, 92, 246, 0.2),
+                0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Staggered Card Animation */
+        .program-card:nth-child(1) { animation: fadeInUp 0.8s ease-out 0.8s both; }
+        .program-card:nth-child(2) { animation: fadeInUp 0.8s ease-out 1.0s both; }
+        .program-card:nth-child(3) { animation: fadeInUp 0.8s ease-out 1.2s both; }
+        .program-card:nth-child(4) { animation: fadeInUp 0.8s ease-out 1.4s both; }
+        
+        /* Enhanced Button Interactions */
+        .upgrade-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upgrade-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .upgrade-btn:hover::before {
+            left: 100%;
+        }
+        
+        .upgrade-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Responsive Animation Adjustments */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-logo img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-dark {
+            display: block !important;
+        }
+
+        .logo-light {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-dark {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-light {
+            display: block !important;
+        }
+
+        .nav-brand {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+        }
+
+        .nav-brand .accent {
+            color: #8B5CF6;
+            font-weight: 400;
+        }
+
+        .tier-badge {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-left: 16px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .upgrade-btn {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            padding-top: 72px; /* Account for fixed navigation */
+            min-height: 100vh;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        /* Theme Variables */
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #8b5cf6;
+            --accent-primary: #9333ea;
+            --accent-secondary: #7c3aed;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(26, 26, 26, 0.8);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .upgrade-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .methodology-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .program-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .program-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .program-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+        }
+
+        .program-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .program-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .program-method {
+            font-size: 12px;
+            color: rgba(139, 92, 246, 0.8);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .upgrade-section {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .upgrade-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .upgrade-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .upgrade-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .upgrade-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Navigation - Matching Landing Page Standard -->
+    <nav class="nav-container">
+        <div class="nav">
+            <a href="#" class="nav-logo">
+                <img src="./objx-dark-background.svg" alt="OBJX Intelligence" class="logo-dark">
+                <img src="./objx-light-background.svg" alt="OBJX Intelligence" class="logo-light">
+                <span class="nav-brand">OBJX<span class="accent">Intelligence</span></span>
+                <div class="tier-badge">TIER 1 - SYSTEMATIC THINKING</div>
+            </a>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+                <a href="#" class="upgrade-btn">Upgrade to Tier 2</a>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="welcome-section">
+            <h1 class="welcome-title">Systematic Thinking Access</h1>
+            <p class="welcome-subtitle">Experience systematic thinking through practical application</p>
+            <p class="methodology-text">clarify • compound • create</p>
+        </div>
+
+        <div class="programs-grid">
+            <div class="program-card" onclick="openProgram('code-review')">
+                <div class="program-icon">🏗️</div>
+                <h3 class="program-title">Building/Municipal Code Review</h3>
+                <p class="program-description">Chat-based systematic code analysis for construction and municipal compliance.</p>
+            </div>
+
+            <div class="program-card" onclick="openProgram('sdge-calculator')">
+                <div class="program-icon">⚡</div>
+                <h3 class="program-title">Basic SDGE Calculator</h3>
+                <p class="program-description">Load calculations with systematic thinking framework for electrical and utility planning.</p>
+            </div>
+
+            <div class="program-card" onclick="openProgram('investment-analysis')">
+                <div class="program-icon">📊</div>
+                <h3 class="program-title">Property Investment Analysis</h3>
+                <p class="program-description">ROI calculations using systematic thinking for real estate investment decisions.</p>
+            </div>
+
+            <div class="program-card" onclick="openProgram('proposal-templates')">
+                <div class="program-icon">📝</div>
+                <h3 class="program-title">Basic Proposal Templates</h3>
+                <p class="program-description">Structured thinking applied to proposal creation and business communication.</p>
+            </div>
+        </div>
+
+        <div class="upgrade-section">
+            <h2 class="upgrade-title">Ready for Compound Intelligence?</h2>
+            <p class="upgrade-description">
+                Upgrade to Tier 2 to save projects, access memory-driven insights, and unlock advanced systematic thinking capabilities with project organization.
+            </p>
+            <a href="#" class="upgrade-button">Upgrade to Tier 2 - $299/month</a>
+        </div>
+    </main>
+
+    <script>
+        function openProgram(programId) {
+            // Open chat interface for the selected program
+            window.location.href = `/chat?program=${programId}&tier=1`;
+        }
+
+        function logout() {
+            window.location.href = '/';
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            
+            // Update theme toggle icon
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            
+            // Save theme preference
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        });
+    </script>
+</body>
+</html>
+

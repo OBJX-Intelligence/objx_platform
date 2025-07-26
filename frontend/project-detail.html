@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Project Detail</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .back-button {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #8B5CF6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .project-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .project-client {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 16px;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .dynamic-fields-section {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .dynamic-fields-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dynamic-fields-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #8B5CF6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-field-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-field-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .dynamic-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .dynamic-field:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .field-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .field-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .field-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .trinity-badge {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .trinity-clarify {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .trinity-compound {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8B5CF6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .trinity-create {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .trinity-complete {
+            background: rgba(249, 115, 22, 0.2);
+            color: #F97316;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .intelligence-score {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .field-content {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        .field-integrations {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .integration-chip {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #8B5CF6;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .integration-manager-section {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .integration-manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .integration-manager-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #22C55E;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connect-integration-button {
+            background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connect-integration-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        .connected-integrations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .integration-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .integration-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .integration-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .integration-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .sync-status {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .sync-connected {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .sync-syncing {
+            background: rgba(249, 115, 22, 0.2);
+            color: #F97316;
+        }
+
+        .integration-services {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .service-chip {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 10px;
+            color: #8B5CF6;
+        }
+
+        .integration-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sync-button, .disconnect-button {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .sync-button {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .disconnect-button {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .sync-button:hover, .disconnect-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .agent-orchestration-section {
+            background: rgba(249, 115, 22, 0.05);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .agent-orchestration-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .agent-orchestration-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #F97316;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .configure-agents-button {
+            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .configure-agents-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+        }
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .agent-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .agent-status {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .agent-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .agent-idle {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9CA3AF;
+        }
+
+        .agent-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .agent-capabilities {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .capability-chip {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 10px;
+            color: #F97316;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8B5CF6;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 24px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .status-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .deadline-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .action-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: #8B5CF6;
+        }
+
+        .progress-section {
+            margin-bottom: 24px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8B5CF6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B5CF6 0%, #7C3AED 100%);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .progress-item {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+
+        .progress-item-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #8B5CF6;
+            margin-bottom: 4px;
+        }
+
+        .progress-item-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .task-item:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .task-title {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .task-assignee {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .task-priority {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .priority-medium {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+        }
+
+        .priority-low {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .task-due {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 8px;
+        }
+
+        .team-section {
+            margin-bottom: 24px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-2px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .member-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 12px;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .member-role {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .member-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .status-online {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .status-busy {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+        }
+
+        .files-section {
+            margin-top: 24px;
+        }
+
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .file-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .file-meta {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .action-button {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .project-title {
+                font-size: 24px;
+            }
+
+            .progress-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Chat Interface Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .chat-toggle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 8px 32px rgba(139, 92, 246, 0.3),
+                0 4px 16px rgba(139, 92, 246, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .chat-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(139, 92, 246, 0.4),
+                0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .chat-toggle-icon {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .chat-notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <a href="project-overview.html" class="back-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Projects
+                </a>
+                <h1 class="project-title" id="projectTitle">City Permit Application</h1>
+                <p class="project-client" id="projectClient">Municipal Development Corp</p>
+                <div class="project-meta">
+                    <span class="status-badge status-critical" id="projectStatus">Critical</span>
+                    <div class="deadline-info">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        <span id="projectDeadline">Due in 3 days</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-button secondary" onclick="shareProject()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/>
+                        <polyline points="16,6 12,2 8,6"/>
+                        <line x1="12" y1="2" x2="12" y2="15"/>
+                    </svg>
+                    Share
+                </button>
+                <button class="action-button" onclick="editProject()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                    Edit Project
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-section">
+                <!-- Progress Section -->
+                <div class="progress-section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                            <polyline points="22,4 12,14.01 9,11.01"/>
+                        </svg>
+                        Project Progress
+                    </h2>
+                    <div class="progress-header">
+                        <span>Overall Completion</span>
+                        <span class="progress-percentage">75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="progress-details">
+                        <div class="progress-item">
+                            <div class="progress-item-value">12</div>
+                            <div class="progress-item-label">Tasks Completed</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-item-value">4</div>
+                            <div class="progress-item-label">Tasks Remaining</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-item-value">3</div>
+                            <div class="progress-item-label">Days Left</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-item-value">4</div>
+                            <div class="progress-item-label">Team Members</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Section -->
+                <div>
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                        </svg>
+                        Active Tasks
+                    </h2>
+                    <div class="task-list">
+                        <div class="task-item">
+                            <div class="task-header">
+                                <div>
+                                    <div class="task-title">Submit environmental impact assessment</div>
+                                    <div class="task-assignee">Assigned to John Doe</div>
+                                </div>
+                                <span class="task-priority priority-high">High</span>
+                            </div>
+                            <div class="task-due">Due tomorrow</div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-header">
+                                <div>
+                                    <div class="task-title">Review zoning compliance documentation</div>
+                                    <div class="task-assignee">Assigned to Sarah Miller</div>
+                                </div>
+                                <span class="task-priority priority-medium">Medium</span>
+                            </div>
+                            <div class="task-due">Due in 2 days</div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-header">
+                                <div>
+                                    <div class="task-title">Coordinate with municipal planning office</div>
+                                    <div class="task-assignee">Assigned to Robert Kim</div>
+                                </div>
+                                <span class="task-priority priority-high">High</span>
+                            </div>
+                            <div class="task-due">Due in 3 days</div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-header">
+                                <div>
+                                    <div class="task-title">Prepare final presentation materials</div>
+                                    <div class="task-assignee">Assigned to Anna Martinez</div>
+                                </div>
+                                <span class="task-priority priority-low">Low</span>
+                            </div>
+                            <div class="task-due">Due in 1 week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <!-- Team Section -->
+                <div class="content-section team-section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 010 7.75"/>
+                        </svg>
+                        Team Members
+                    </h2>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="member-avatar">JD</div>
+                            <div class="member-name">John Doe</div>
+                            <div class="member-role">Project Lead</div>
+                            <span class="member-status status-online">Online</span>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">SM</div>
+                            <div class="member-name">Sarah Miller</div>
+                            <div class="member-role">Compliance Specialist</div>
+                            <span class="member-status status-online">Online</span>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">RK</div>
+                            <div class="member-name">Robert Kim</div>
+                            <div class="member-role">Municipal Liaison</div>
+                            <span class="member-status status-busy">Busy</span>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">AM</div>
+                            <div class="member-name">Anna Martinez</div>
+                            <div class="member-role">Documentation</div>
+                            <span class="member-status status-online">Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Files Section -->
+                <div class="content-section files-section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/>
+                            <polyline points="13,2 13,9 20,9"/>
+                        </svg>
+                        Project Files
+                    </h2>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <div class="file-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                    <polyline points="14,2 14,8 20,8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                    <polyline points="10,9 9,9 8,9"/>
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">Environmental Impact Assessment.pdf</div>
+                                <div class="file-meta">2.4 MB • Modified 2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="file-item">
+                            <div class="file-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                    <polyline points="14,2 14,8 20,8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                    <polyline points="10,9 9,9 8,9"/>
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">Zoning Compliance Report.docx</div>
+                                <div class="file-meta">1.8 MB • Modified yesterday</div>
+                            </div>
+                        </div>
+                        <div class="file-item">
+                            <div class="file-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                                    <polyline points="21,15 16,10 5,21"/>
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">Site Plans.jpg</div>
+                                <div class="file-meta">5.2 MB • Modified 3 days ago</div>
+                            </div>
+                        </div>
+                        <div class="file-item">
+                            <div class="file-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                    <polyline points="14,2 14,8 20,8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                    <polyline points="10,9 9,9 8,9"/>
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">Municipal Requirements.pdf</div>
+                                <div class="file-meta">3.1 MB • Modified 1 week ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-container">
+        <button class="chat-toggle" onclick="toggleChat()">
+            <svg class="chat-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span class="chat-notification-badge">3</span>
+        </button>
+    </div>
+
+    <script>
+        // Get project ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('id') || '1';
+
+        // Sample project data (would come from backend)
+        const projectData = {
+            1: {
+                title: "City Permit Application",
+                client: "Municipal Development Corp",
+                status: "critical",
+                deadline: "3 days",
+                progress: 75
+            },
+            2: {
+                title: "Residential Complex Design",
+                client: "Sunset Properties",
+                status: "active",
+                deadline: "2 weeks",
+                progress: 45
+            }
+        };
+
+        function initializePage() {
+            loadProjectData();
+        }
+
+        function loadProjectData() {
+            const project = projectData[projectId];
+            if (project) {
+                document.getElementById('projectTitle').textContent = project.title;
+                document.getElementById('projectClient').textContent = project.client;
+                document.getElementById('projectDeadline').textContent = `Due in ${project.deadline}`;
+                
+                const statusElement = document.getElementById('projectStatus');
+                statusElement.textContent = project.status;
+                statusElement.className = `status-badge status-${project.status}`;
+            }
+        }
+
+        function editProject() {
+            alert('Opening project editor...');
+        }
+
+        function shareProject() {
+            alert('Opening share options...');
+        }
+
+        function toggleChat() {
+            alert('Chat interface would open here');
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+
+        // Dynamic Fields Management
+        let projectId = 'proj_001'; // This would be dynamic based on the current project
+        let currentUserId = 'admin'; // This would be from the session
+
+        // Load dynamic fields on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDynamicFields();
+            loadConnectedIntegrations();
+            loadProjectAgents();
+        });
+
+        function loadDynamicFields() {
+            fetch(`/api/projects/${projectId}/fields`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayDynamicFields(data.fields);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading dynamic fields:', error);
+                });
+        }
+
+        function displayDynamicFields(fields) {
+            const container = document.getElementById('dynamic-fields-container');
+            
+            if (!fields || fields.length === 0) {
+                container.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6); text-align: center; padding: 20px;">No dynamic fields added yet. Click "Add Field" to get started.</p>';
+                return;
+            }
+
+            container.innerHTML = fields.map(field => `
+                <div class="dynamic-field">
+                    <div class="field-header">
+                        <div class="field-name">${field.name}</div>
+                        <div class="field-meta">
+                            <span class="trinity-badge trinity-${field.trinity_category.toLowerCase()}">${field.trinity_category}</span>
+                            <span class="intelligence-score">${field.intelligence_score}/100</span>
+                        </div>
+                    </div>
+                    <div class="field-content">${field.value}</div>
+                    ${field.integrations && field.integrations.length > 0 ? `
+                        <div class="field-integrations">
+                            ${field.integrations.map(integration => `
+                                <span class="integration-chip">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+                                        <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+                                    </svg>
+                                    ${integration.name}
+                                </span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function openAddFieldModal() {
+            document.getElementById('add-field-modal').classList.add('active');
+        }
+
+        function closeAddFieldModal() {
+            document.getElementById('add-field-modal').classList.remove('active');
+            document.getElementById('add-field-form').reset();
+        }
+
+        document.getElementById('add-field-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fieldData = {
+                project_id: projectId,
+                field_name: document.getElementById('field-name').value,
+                field_type: document.getElementById('field-type').value,
+                field_value: document.getElementById('field-value').value,
+                agent_context: document.getElementById('agent-context').value
+            };
+
+            fetch('/api/projects/fields/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(fieldData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    closeAddFieldModal();
+                    loadDynamicFields(); // Reload fields
+                } else {
+                    alert('Error adding field: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error adding field:', error);
+                alert('Error adding field');
+            });
+        });
+
+        // Integration Management
+        function loadConnectedIntegrations() {
+            fetch(`/api/integrations/user/${currentUserId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayConnectedIntegrations(data.integrations);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading integrations:', error);
+                });
+        }
+
+        function displayConnectedIntegrations(integrations) {
+            const container = document.getElementById('connected-integrations');
+            
+            if (!integrations || integrations.length === 0) {
+                container.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6); text-align: center; padding: 20px;">No integrations connected yet. Click "Connect Service" to get started.</p>';
+                return;
+            }
+
+            container.innerHTML = integrations.map(integration => `
+                <div class="integration-card">
+                    <div class="integration-card-header">
+                        <div class="integration-name">${integration.integration_name}</div>
+                        <span class="sync-status sync-${integration.sync_status}">${integration.sync_status}</span>
+                    </div>
+                    <div class="integration-services">
+                        ${integration.services.map(service => `
+                            <span class="service-chip">${service}</span>
+                        `).join('')}
+                    </div>
+                    <div class="integration-actions">
+                        <button class="sync-button" onclick="syncIntegration('${integration.connection_id}')">Sync</button>
+                        <button class="disconnect-button" onclick="disconnectIntegration('${integration.connection_id}')">Disconnect</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openIntegrationModal() {
+            document.getElementById('integration-modal').classList.add('active');
+            loadAvailableIntegrations();
+        }
+
+        function closeIntegrationModal() {
+            document.getElementById('integration-modal').classList.remove('active');
+        }
+
+        function loadAvailableIntegrations() {
+            fetch('/api/integrations/available')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayAvailableIntegrations(data.available_integrations);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading available integrations:', error);
+                });
+        }
+
+        function displayAvailableIntegrations(integrations) {
+            const container = document.getElementById('available-integrations');
+            
+            container.innerHTML = integrations.map(integration => `
+                <div class="integration-card" style="cursor: pointer;" onclick="initiateIntegration('${integration.type}')">
+                    <div class="integration-card-header">
+                        <div class="integration-name">${integration.name}</div>
+                        <span class="sync-status sync-connected">${integration.auth_type}</span>
+                    </div>
+                    <div class="integration-services">
+                        ${integration.services.map(service => `
+                            <span class="service-chip">${service}</span>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top: 12px; font-size: 12px; color: rgba(255, 255, 255, 0.7);">
+                        <strong>Trinity Alignment:</strong><br>
+                        • Clarify: ${integration.trinity_alignment.clarify}<br>
+                        • Compound: ${integration.trinity_alignment.compound}<br>
+                        • Create: ${integration.trinity_alignment.create}<br>
+                        • Complete: ${integration.trinity_alignment.complete}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function initiateIntegration(integrationType) {
+            fetch('/api/integrations/initiate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: currentUserId,
+                    integration_type: integrationType
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.auth_type === 'oauth2') {
+                        window.open(data.auth_url, '_blank');
+                    } else if (data.auth_type === 'api_key') {
+                        const apiKey = prompt(`Please enter your ${data.integration_info.name} API key:`);
+                        if (apiKey) {
+                            completeIntegration(data.connection_id, { api_key: apiKey });
+                        }
+                    }
+                } else {
+                    alert('Error initiating integration: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error initiating integration:', error);
+            });
+        }
+
+        function completeIntegration(connectionId, authData) {
+            fetch('/api/integrations/complete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    connection_id: connectionId,
+                    auth_data: authData
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Integration connected successfully!');
+                    closeIntegrationModal();
+                    loadConnectedIntegrations();
+                } else {
+                    alert('Error completing integration: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error completing integration:', error);
+            });
+        }
+
+        function syncIntegration(connectionId) {
+            fetch(`/api/integrations/sync/${connectionId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Integration synced successfully!');
+                    loadConnectedIntegrations();
+                } else {
+                    alert('Error syncing integration: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error syncing integration:', error);
+            });
+        }
+
+        function disconnectIntegration(connectionId) {
+            if (confirm('Are you sure you want to disconnect this integration?')) {
+                fetch(`/api/integrations/disconnect/${connectionId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: currentUserId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Integration disconnected successfully!');
+                        loadConnectedIntegrations();
+                    } else {
+                        alert('Error disconnecting integration: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error disconnecting integration:', error);
+                });
+            }
+        }
+
+        // Agent Management
+        function loadProjectAgents() {
+            fetch(`/api/agents/project/${projectId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayProjectAgents(data.agents);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading project agents:', error);
+                    // Display default agents if API fails
+                    displayDefaultAgents();
+                });
+        }
+
+        function displayProjectAgents(agents) {
+            const container = document.getElementById('agent-grid');
+            
+            container.innerHTML = agents.map(agent => `
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-name">${agent.name}</div>
+                        <span class="agent-status agent-${agent.status}">${agent.status}</span>
+                    </div>
+                    <div class="agent-description">${agent.description}</div>
+                    <div class="agent-capabilities">
+                        ${agent.capabilities.map(capability => `
+                            <span class="capability-chip">${capability}</span>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayDefaultAgents() {
+            const defaultAgents = [
+                {
+                    name: 'Project Manager',
+                    status: 'active',
+                    description: 'Oversees project timeline, coordinates team activities, and ensures deliverables are met.',
+                    capabilities: ['Planning', 'Coordination', 'Timeline Management']
+                },
+                {
+                    name: 'Task Coordinator',
+                    status: 'active',
+                    description: 'Manages task assignments, tracks progress, and optimizes workflow efficiency.',
+                    capabilities: ['Task Assignment', 'Progress Tracking', 'Workflow Optimization']
+                },
+                {
+                    name: 'Deadline Monitor',
+                    status: 'active',
+                    description: 'Monitors upcoming deadlines, sends reminders, and escalates critical items.',
+                    capabilities: ['Deadline Tracking', 'Alerts', 'Escalation']
+                },
+                {
+                    name: 'Client Communicator',
+                    status: 'idle',
+                    description: 'Handles client communications, updates, and relationship management.',
+                    capabilities: ['Communication', 'Updates', 'Relationship Management']
+                }
+            ];
+
+            displayProjectAgents(defaultAgents);
+        }
+
+        function openAgentConfigModal() {
+            document.getElementById('agent-config-modal').classList.add('active');
+        }
+
+        function closeAgentConfigModal() {
+            document.getElementById('agent-config-modal').classList.remove('active');
+            document.getElementById('agent-config-form').reset();
+        }
+
+        document.getElementById('agent-config-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const agentData = {
+                project_id: projectId,
+                agent_name: document.getElementById('agent-name').value,
+                agent_role: document.getElementById('agent-role').value,
+                agent_description: document.getElementById('agent-description').value,
+                agent_capabilities: document.getElementById('agent-capabilities').value.split(',').map(cap => cap.trim())
+            };
+
+            fetch('/api/agents/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(agentData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    closeAgentConfigModal();
+                    loadProjectAgents(); // Reload agents
+                    alert('Agent configured successfully!');
+                } else {
+                    alert('Error configuring agent: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error configuring agent:', error);
+                alert('Error configuring agent');
+            });
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Dynamic Fields Section -->
+    <div class="dynamic-fields-section">
+        <div class="dynamic-fields-header">
+            <div class="dynamic-fields-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Dynamic Project Fields
+            </div>
+            <button class="add-field-button" onclick="openAddFieldModal()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Field
+            </button>
+        </div>
+        <div id="dynamic-fields-container">
+            <!-- Dynamic fields will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Integration Manager Section -->
+    <div class="integration-manager-section">
+        <div class="integration-manager-header">
+            <div class="integration-manager-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/>
+                    <polyline points="16,6 12,2 8,6"/>
+                    <line x1="12" y1="2" x2="12" y2="15"/>
+                </svg>
+                Integration Manager
+            </div>
+            <button class="connect-integration-button" onclick="openIntegrationModal()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+                </svg>
+                Connect Service
+            </button>
+        </div>
+        <div class="connected-integrations" id="connected-integrations">
+            <!-- Connected integrations will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Agent Orchestration Section -->
+    <div class="agent-orchestration-section">
+        <div class="agent-orchestration-header">
+            <div class="agent-orchestration-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3z"/>
+                    <path d="M12 22a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3z"/>
+                    <path d="M12 8.5v7"/>
+                    <path d="M8.5 12H15.5"/>
+                </svg>
+                Agent Orchestration
+            </div>
+            <button class="configure-agents-button" onclick="openAgentConfigModal()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                </svg>
+                Configure Agents
+            </button>
+        </div>
+        <div class="agent-grid" id="agent-grid">
+            <!-- Agent cards will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Add Field Modal -->
+    <div id="add-field-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Dynamic Field</h3>
+                <button class="close-button" onclick="closeAddFieldModal()">&times;</button>
+            </div>
+            <form id="add-field-form">
+                <div class="form-group">
+                    <label class="form-label">Field Name</label>
+                    <input type="text" class="form-input" id="field-name" placeholder="Enter field name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Field Type</label>
+                    <select class="form-select" id="field-type" required>
+                        <option value="">Select field type</option>
+                        <option value="text">Text</option>
+                        <option value="number">Number</option>
+                        <option value="date">Date</option>
+                        <option value="email">Email</option>
+                        <option value="phone">Phone</option>
+                        <option value="url">URL</option>
+                        <option value="textarea">Long Text</option>
+                        <option value="select">Dropdown</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="file">File Upload</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Field Value</label>
+                    <textarea class="form-textarea" id="field-value" placeholder="Enter field value or content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Agent Context (Optional)</label>
+                    <textarea class="form-textarea" id="agent-context" placeholder="Describe how this field relates to the project or what agent should know about it"></textarea>
+                </div>
+                <button type="submit" class="submit-button">Add Field</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Integration Modal -->
+    <div id="integration-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Connect Integration</h3>
+                <button class="close-button" onclick="closeIntegrationModal()">&times;</button>
+            </div>
+            <div id="available-integrations">
+                <!-- Available integrations will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Configuration Modal -->
+    <div id="agent-config-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Configure Agents</h3>
+                <button class="close-button" onclick="closeAgentConfigModal()">&times;</button>
+            </div>
+            <form id="agent-config-form">
+                <div class="form-group">
+                    <label class="form-label">Agent Name</label>
+                    <input type="text" class="form-input" id="agent-name" placeholder="Enter agent name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Agent Role</label>
+                    <select class="form-select" id="agent-role" required>
+                        <option value="">Select agent role</option>
+                        <option value="project_manager">Project Manager</option>
+                        <option value="task_coordinator">Task Coordinator</option>
+                        <option value="deadline_monitor">Deadline Monitor</option>
+                        <option value="resource_optimizer">Resource Optimizer</option>
+                        <option value="client_communicator">Client Communicator</option>
+                        <option value="billing_manager">Billing Manager</option>
+                        <option value="quality_assurance">Quality Assurance</option>
+                        <option value="compliance_specialist">Compliance Specialist</option>
+                        <option value="document_manager">Document Manager</option>
+                        <option value="custom">Custom Agent</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Agent Description</label>
+                    <textarea class="form-textarea" id="agent-description" placeholder="Describe what this agent does and its responsibilities"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Capabilities</label>
+                    <textarea class="form-textarea" id="agent-capabilities" placeholder="List the specific capabilities and skills this agent has"></textarea>
+                </div>
+                <button type="submit" class="submit-button">Configure Agent</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Dynamic Fields Styles */
+        .dynamic-fields-section {
+            margin: 24px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .dynamic-fields-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dynamic-fields-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .dynamic-fields-title svg {
+            color: #8B5CF6;
+        }
+
+        .add-field-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .add-field-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .dynamic-field {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .field-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .field-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .field-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trinity-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .trinity-clarify {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+
+        .trinity-compound {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8B5CF6;
+        }
+
+        .trinity-create {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .trinity-complete {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+        }
+
+        .intelligence-score {
+            font-size: 12px;
+            color: #8B5CF6;
+            font-weight: 600;
+        }
+
+        .field-content {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .field-integrations {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .integration-chip {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #8B5CF6;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Integration Manager Styles */
+        .integration-manager-section {
+            margin: 24px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .integration-manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .integration-manager-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .integration-manager-title svg {
+            color: #22C55E;
+        }
+
+        .connect-integration-button {
+            background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .connect-integration-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .integration-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .integration-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .integration-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .sync-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .sync-connected {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .sync-syncing {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+        }
+
+        .sync-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .integration-services {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .service-chip {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #22C55E;
+        }
+
+        .integration-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sync-button, .disconnect-button {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sync-button {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #8B5CF6;
+        }
+
+        .sync-button:hover {
+            background: rgba(139, 92, 246, 0.3);
+        }
+
+        .disconnect-button {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #EF4444;
+        }
+
+        .disconnect-button:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Agent Orchestration Styles */
+        .agent-orchestration-section {
+            margin: 24px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .agent-orchestration-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .agent-orchestration-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .agent-orchestration-title svg {
+            color: #F59E0B;
+        }
+
+        .configure-agents-button {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .configure-agents-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .agent-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .agent-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .agent-idle {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+        }
+
+        .agent-offline {
+            background: rgba(107, 114, 128, 0.2);
+            color: #6B7280;
+        }
+
+        .agent-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .agent-capabilities {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .capability-chip {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #F59E0B;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #8B5CF6;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .dynamic-fields-header, .integration-manager-header, .agent-orchestration-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            .agent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+        }
+    </style>
+    </script>
+</body>
+</html>
+

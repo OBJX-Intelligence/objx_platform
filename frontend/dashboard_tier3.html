@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Complete Methodology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Dynamic Animations & Real-Time Elements */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes logoBreath {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.02); opacity: 0.25; }
+        }
+        
+        @keyframes agentPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes dataFlow {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        @keyframes typing {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Enhanced Logo Animation */
+        .logo {
+            animation: logoBreath 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            animation-duration: 2s;
+            transform: scale(1.05);
+        }
+        
+        /* Dynamic Content Loading */
+        .welcome-section h1 {
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .welcome-section p {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        
+        .methodology-text {
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        /* Live Agent Status Animations */
+        .agent-status {
+            animation: fadeInLeft 1s ease-out 0.8s both;
+        }
+        
+        .agent-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .agent-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.1), transparent);
+            transform: translateX(-100%);
+            animation: dataFlow 3s infinite;
+        }
+        
+        .agent-item:hover {
+            transform: translateX(8px);
+            background: rgba(34, 197, 94, 0.1);
+        }
+        
+        .status-indicator {
+            animation: agentPulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        /* Quick Action Buttons with Real-time Effects */
+        .quick-actions {
+            animation: fadeInUp 1s ease-out 1.0s both;
+        }
+        
+        .quick-action-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quick-action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .quick-action-btn:hover::before {
+            left: 100%;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 
+                0 16px 48px rgba(139, 92, 246, 0.3),
+                0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Enhanced Program Card Interactions */
+        .program-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: inherit;
+        }
+        
+        .program-card:hover::before {
+            opacity: 1;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 60px rgba(139, 92, 246, 0.2),
+                0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Project Card Animations */
+        .project-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInLeft 0.8s ease-out both;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 
+                0 12px 40px rgba(239, 68, 68, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Proactive Intelligence Animation */
+        .proactive-intelligence {
+            animation: fadeInRight 1s ease-out 1.2s both;
+        }
+        
+        .intelligence-item {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .intelligence-item:hover {
+            transform: translateX(8px);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        /* Document Generation Panel */
+        .document-panel {
+            animation: fadeInRight 1s ease-out 1.4s both;
+        }
+        
+        .doc-template {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .doc-template:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Staggered Card Animation */
+        .program-card:nth-child(1) { animation: fadeInUp 0.8s ease-out 1.6s both; }
+        .program-card:nth-child(2) { animation: fadeInUp 0.8s ease-out 1.8s both; }
+        .program-card:nth-child(3) { animation: fadeInUp 0.8s ease-out 2.0s both; }
+        .program-card:nth-child(4) { animation: fadeInUp 0.8s ease-out 2.2s both; }
+        .program-card:nth-child(5) { animation: fadeInUp 0.8s ease-out 2.4s both; }
+        
+        /* White Label Button Special Animation */
+        .white-label-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .white-label-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .white-label-btn:hover::before {
+            left: 100%;
+        }
+        
+        .white-label-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 
+                0 16px 48px rgba(34, 197, 94, 0.4),
+                0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Real-time Data Visualization */
+        .real-time-indicator {
+            position: relative;
+        }
+        
+        .real-time-indicator::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: agentPulse 1.5s infinite;
+        }
+        
+        /* Typing Indicator for Active Agents */
+        .typing-indicator {
+            display: inline-block;
+            animation: typing 1.5s infinite;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Responsive Animation Adjustments */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-name .accent {
+            color: #8B5CF6;
+            font-weight: 400;
+        }
+
+        .tier-badge {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .white-label-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .white-label-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .main-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+        }
+
+        .dashboard-section {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .command-center {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .command-title {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .command-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .methodology-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .agent-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .agent-status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10B981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .agent-activity {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .quick-action-btn {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .projects-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .new-project-btn {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .new-project-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .project-status {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10B981;
+        }
+
+        .project-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .project-type {
+            font-size: 12px;
+            color: rgba(139, 92, 246, 0.8);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .project-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .advanced-programs {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .program-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .program-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .program-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .program-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .proactive-insights {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .insight-item {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .insight-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .insight-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .document-generation {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .document-templates {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .template-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #ffffff;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .template-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .white-label-section {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .white-label-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .white-label-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .white-label-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .white-label-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .agent-status {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="objx-dark-background.svg" alt="OBJX" class="logo-marker" style="width: 40px; height: 40px;">
+                <div class="brand-name">
+                    OBJX<span class="accent">Intelligence</span>
+                </div>
+                <div class="tier-badge">TIER 3 - COMPLETE METHODOLOGY</div>
+            </div>
+            <div class="user-section">
+                <a href="#" class="white-label-btn">White Label Inquiry</a>
+                <button onclick="logout()" style="background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="dashboard-section">
+            <div class="command-center">
+                <h1 class="command-title">Master Systematic Thinking with Automation</h1>
+                <p class="command-subtitle">Agent-powered command center with complete methodology access</p>
+                <p class="methodology-text">clarify • compound • create</p>
+                
+                <div class="agent-status">
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Document Agent</div>
+                            <div class="agent-activity">Generating feasibility report</div>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Research Agent</div>
+                            <div class="agent-activity">Monitoring market trends</div>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Analysis Agent</div>
+                            <div class="agent-activity">Processing regulatory data</div>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Workflow Agent</div>
+                            <div class="agent-activity">Optimizing project timeline</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="quick-action-btn" onclick="generateDocument()">Generate Document</button>
+                    <button class="quick-action-btn" onclick="runAnalysis()">Run Analysis</button>
+                    <button class="quick-action-btn" onclick="orchestrateAgents()">Orchestrate Agents</button>
+                    <button class="quick-action-btn" onclick="optimizeWorkflow()">Optimize Workflow</button>
+                </div>
+            </div>
+
+            <div class="projects-section">
+                <div class="section-header">
+                    <h2 class="section-title">Advanced Projects</h2>
+                    <button class="new-project-btn" onclick="createAdvancedProject()">+ New Advanced Project</button>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card" onclick="openProject('enterprise-1')">
+                        <div class="project-status"></div>
+                        <div class="project-title">Enterprise Development Hub</div>
+                        <div class="project-type">COMPLETE METHODOLOGY</div>
+                        <div class="project-description">Full-scale development project with automated document generation, regulatory navigation, and systematic workflow optimization.</div>
+                        <div class="project-meta">
+                            <span>Agent-managed</span>
+                            <span>Auto-updating</span>
+                        </div>
+                    </div>
+                    <div class="project-card" onclick="openProject('enterprise-2')">
+                        <div class="project-status"></div>
+                        <div class="project-title">Municipal Integration System</div>
+                        <div class="project-type">REGULATORY NAVIGATION</div>
+                        <div class="project-description">Complete permit and approval process automation with systematic thinking methodology.</div>
+                        <div class="project-meta">
+                            <span>Proactive monitoring</span>
+                            <span>95% automated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="advanced-programs">
+                <div class="section-header">
+                    <h2 class="section-title">Complete Methodology Programs</h2>
+                </div>
+                <div class="programs-grid">
+                    <div class="program-card" onclick="openProgram('document-creation')">
+                        <div class="program-icon">📄</div>
+                        <div class="program-title">Full Document Creation</div>
+                        <div class="program-description">Visual reports, comprehensive proposals, and feasibility studies with systematic methodology.</div>
+                    </div>
+                    <div class="program-card" onclick="openProgram('agent-orchestration')">
+                        <div class="program-icon">🎭</div>
+                        <div class="program-title">Agent Orchestration</div>
+                        <div class="program-description">Complete automation with systematic thinking-guided agent coordination.</div>
+                    </div>
+                    <div class="program-card" onclick="openProgram('visual-analytics')">
+                        <div class="program-icon">📈</div>
+                        <div class="program-title">Visual Analytics</div>
+                        <div class="program-description">Charts, graphs, and comprehensive reporting with systematic intelligence.</div>
+                    </div>
+                    <div class="program-card" onclick="openProgram('regulatory-navigation')">
+                        <div class="program-icon">🏛️</div>
+                        <div class="program-title">Regulatory Navigation</div>
+                        <div class="program-description">Complete permit and approval process optimization with systematic approach.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="proactive-insights">
+                <h3 class="section-title">Proactive Intelligence</h3>
+                <div class="insight-item">
+                    <div class="insight-title">Opportunity Identified</div>
+                    <div class="insight-description">Market analysis suggests optimal timing for Phase 2 expansion. Systematic risk assessment recommends proceeding.</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-title">Process Optimization</div>
+                    <div class="insight-description">Agent orchestration has reduced project timeline by 40% through systematic workflow improvements.</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-title">Regulatory Update</div>
+                    <div class="insight-description">New municipal requirements detected. Automatic compliance adjustments applied to active projects.</div>
+                </div>
+            </div>
+
+            <div class="document-generation">
+                <h3 class="section-title">Document Generation</h3>
+                <div class="document-templates">
+                    <button class="template-btn" onclick="generateTemplate('feasibility')">Feasibility Study Report</button>
+                    <button class="template-btn" onclick="generateTemplate('proposal')">Comprehensive Proposal</button>
+                    <button class="template-btn" onclick="generateTemplate('analysis')">Investment Analysis</button>
+                    <button class="template-btn" onclick="generateTemplate('compliance')">Compliance Documentation</button>
+                    <button class="template-btn" onclick="generateTemplate('workflow')">Workflow Optimization</button>
+                </div>
+            </div>
+
+            <div class="white-label-section">
+                <h3 class="white-label-title">Ready for White Label?</h3>
+                <p class="white-label-description">
+                    License the complete systematic thinking methodology for your organization with custom branding and deployment.
+                </p>
+                <a href="#" class="white-label-button">Explore White Label</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function openProject(projectId) {
+            window.location.href = `/project/${projectId}?tier=3`;
+        }
+
+        function createAdvancedProject() {
+            window.location.href = `/project/new?tier=3&type=advanced`;
+        }
+
+        function openProgram(programId) {
+            window.location.href = `/chat?program=${programId}&tier=3`;
+        }
+
+        function generateDocument() {
+            window.location.href = `/documents/generate?tier=3`;
+        }
+
+        function runAnalysis() {
+            window.location.href = `/analysis?tier=3`;
+        }
+
+        function orchestrateAgents() {
+            window.location.href = `/agents/orchestrate?tier=3`;
+        }
+
+        function optimizeWorkflow() {
+            window.location.href = `/workflow/optimize?tier=3`;
+        }
+
+        function generateTemplate(templateType) {
+            window.location.href = `/documents/template/${templateType}?tier=3`;
+        }
+
+        function logout() {
+            window.location.href = '/';
+        }
+    </script>
+    <!-- Universal Chat Interface Integration -->
+    <div class="chat-container" id="chatContainer">
+        <!-- Chat Toggle Button -->
+        <button class="chat-toggle" id="chatToggle">
+            <svg class="chat-toggle-icon" viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+            </svg>
+            <div class="chat-notification-badge" id="chatBadge" style="display: none;">2</div>
+        </button>
+
+        <!-- Chat Window -->
+        <div class="chat-window" id="chatWindow">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-header-content">
+                    <h3 class="chat-title">OBJX Intelligence</h3>
+                    <p class="chat-subtitle">clarify • compound • create</p>
+                </div>
+                <div class="chat-tier-badge" id="tierBadge">TIER 3</div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome Message -->
+                <div class="message assistant">
+                    <div class="message-content">
+                        Welcome to your Complete Methodology access! I have full access to your project memories, advanced agents, and can orchestrate complex solutions. 
+                        
+                        What would you like to work on today?
+                    </div>
+                    <div class="message-timestamp">Just now</div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator" id="typingIndicator">
+                    <span style="font-size: 12px; color: #64748B;">AI is thinking</span>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <!-- Agent Selector -->
+                <div class="agent-selector" id="agentSelector">
+                    <div class="agent-option active" data-agent="systematic_thinking">Systematic Thinking</div>
+                    <div class="agent-option" data-agent="memory_enhanced">Memory Enhanced</div>
+                    <div class="agent-option" data-agent="document_creation">Document Creation</div>
+                    <div class="agent-option" data-agent="visual_analytics">Visual Analytics</div>
+                </div>
+
+                <!-- Input Wrapper -->
+                <div class="chat-input-wrapper">
+                    <textarea 
+                        class="chat-input" 
+                        id="chatInput" 
+                        placeholder="Ask me anything about your projects, create documents, or analyze data..."
+                        rows="1"
+                    ></textarea>
+                    <button class="chat-send-button" id="chatSendButton">
+                        <svg class="chat-send-icon" viewBox="0 0 24 24">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                    <div class="memory-indicator" id="memoryIndicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Universal Chat Interface Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .chat-toggle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .chat-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            border-radius: 50%;
+        }
+
+        .chat-toggle-icon {
+            width: 28px;
+            height: 28px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-toggle.active .chat-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .chat-notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 400px;
+            height: 600px;
+            background: var(--bg-primary);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-window.active {
+            display: flex;
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .chat-header {
+            padding: 20px 24px 16px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .chat-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .chat-subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .chat-tier-badge {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 2px;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        @keyframes messageSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.assistant .message-content {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-timestamp {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            padding: 0 4px;
+        }
+
+        .message.user .message-timestamp {
+            text-align: right;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            max-width: 85%;
+            align-self: flex-start;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #8B5CF6;
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingDot {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-input-container {
+            padding: 16px 20px 20px;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            min-height: 44px;
+            max-height: 120px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            transition: all 0.2s ease;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        .chat-input:focus {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .chat-send-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .chat-send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        .chat-send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chat-send-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .agent-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .agent-option {
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+        }
+
+        .agent-option:hover {
+            background: var(--hover-bg);
+        }
+
+        .agent-option.active {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            border-color: #8B5CF6;
+        }
+
+        .memory-indicator {
+            position: absolute;
+            top: 12px;
+            right: 50px;
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .memory-indicator.active {
+            opacity: 1;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .chat-window {
+                width: calc(100vw - 48px);
+                height: calc(100vh - 120px);
+                bottom: 80px;
+                right: 24px;
+            }
+            
+            .chat-container {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+
+    <script>
+        // Universal Chat Interface for Tier 3
+        class Tier3ChatInterface {
+            constructor() {
+                this.isOpen = false;
+                this.currentAgent = 'systematic_thinking';
+                this.userTier = 'tier_3';
+                this.userId = 'demo_user_tier3';
+                this.conversationHistory = [];
+                
+                this.initializeElements();
+                this.bindEvents();
+                this.loadNotifications();
+            }
+
+            initializeElements() {
+                this.chatToggle = document.getElementById('chatToggle');
+                this.chatWindow = document.getElementById('chatWindow');
+                this.chatMessages = document.getElementById('chatMessages');
+                this.chatInput = document.getElementById('chatInput');
+                this.chatSendButton = document.getElementById('chatSendButton');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.agentSelector = document.getElementById('agentSelector');
+                this.tierBadge = document.getElementById('tierBadge');
+                this.memoryIndicator = document.getElementById('memoryIndicator');
+                this.chatBadge = document.getElementById('chatBadge');
+            }
+
+            bindEvents() {
+                this.chatToggle.addEventListener('click', () => this.toggleChat());
+                this.chatSendButton.addEventListener('click', () => this.sendMessage());
+                
+                this.chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                this.chatInput.addEventListener('input', () => this.autoResizeInput());
+
+                this.agentSelector.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('agent-option')) {
+                        this.selectAgent(e.target);
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.chat-container') && this.isOpen) {
+                        this.closeChat();
+                    }
+                });
+            }
+
+            toggleChat() {
+                if (this.isOpen) {
+                    this.closeChat();
+                } else {
+                    this.openChat();
+                }
+            }
+
+            openChat() {
+                this.isOpen = true;
+                this.chatToggle.classList.add('active');
+                this.chatWindow.classList.add('active');
+                this.chatInput.focus();
+                this.hideBadge();
+            }
+
+            closeChat() {
+                this.isOpen = false;
+                this.chatToggle.classList.remove('active');
+                this.chatWindow.classList.remove('active');
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+
+                this.addMessage('user', message);
+                this.chatInput.value = '';
+                this.autoResizeInput();
+                this.showTyping();
+
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            user_id: this.userId,
+                            user_tier: this.userTier,
+                            agent_type: this.currentAgent,
+                            conversation_history: this.conversationHistory.slice(-5)
+                        })
+                    });
+
+                    const data = await response.json();
+                    this.hideTyping();
+                    
+                    if (data.response) {
+                        this.addMessage('assistant', data.response);
+                        
+                        if (data.memories_created && data.memories_created.length > 0) {
+                            this.showMemoryIndicator();
+                        }
+                    } else {
+                        this.addMessage('assistant', 'I apologize, but I encountered an issue processing your request.');
+                    }
+
+                } catch (error) {
+                    this.hideTyping();
+                    this.addMessage('assistant', 'I apologize, but I\'m experiencing technical difficulties. Please try again.');
+                    console.error('Chat API error:', error);
+                }
+            }
+
+            addMessage(type, content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}`;
+                
+                const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">${this.formatMessage(content)}</div>
+                    <div class="message-timestamp">${timestamp}</div>
+                `;
+
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+
+                if (type === 'user') {
+                    this.conversationHistory.push({user: content, assistant: null});
+                } else {
+                    if (this.conversationHistory.length > 0) {
+                        this.conversationHistory[this.conversationHistory.length - 1].assistant = content;
+                    }
+                }
+            }
+
+            formatMessage(content) {
+                return content
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            showTyping() {
+                this.typingIndicator.classList.add('active');
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                this.typingIndicator.classList.remove('active');
+            }
+
+            showMemoryIndicator() {
+                this.memoryIndicator.classList.add('active');
+                setTimeout(() => {
+                    this.memoryIndicator.classList.remove('active');
+                }, 3000);
+            }
+
+            showBadge(count = 1) {
+                this.chatBadge.textContent = count;
+                this.chatBadge.style.display = 'flex';
+            }
+
+            hideBadge() {
+                this.chatBadge.style.display = 'none';
+            }
+
+            selectAgent(agentElement) {
+                this.agentSelector.querySelectorAll('.agent-option').forEach(el => {
+                    el.classList.remove('active');
+                });
+                agentElement.classList.add('active');
+                this.currentAgent = agentElement.dataset.agent;
+            }
+
+            autoResizeInput() {
+                this.chatInput.style.height = 'auto';
+                this.chatInput.style.height = Math.min(this.chatInput.scrollHeight, 120) + 'px';
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+                }, 100);
+            }
+
+            async loadNotifications() {
+                try {
+                    const response = await fetch(`/api/notifications?user_id=${this.userId}&unread_only=true`);
+                    const data = await response.json();
+                    
+                    if (data.notifications && data.notifications.length > 0) {
+                        this.showBadge(data.notifications.length);
+                    }
+                } catch (error) {
+                    console.error('Failed to load notifications:', error);
+                }
+            }
+        }
+
+        // Initialize chat interface when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.tier3Chat = new Tier3ChatInterface();
+        });
+    </script>
+
+    </body>
+</html>
+
+
+    <!-- PROJECT MANAGEMENT MODAL/OVERLAY -->
+    <div id="projectManagementModal" class="project-modal" style="display: none;">
+        <div class="modal-backdrop" onclick="closeProjectManagement()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Project Management</h2>
+                <button class="modal-close" onclick="closeProjectManagement()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="project-filters">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all">All Projects</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="critical">Critical Deadlines</button>
+                        <button class="filter-btn" data-filter="permits">Permit Pending</button>
+                    </div>
+                    <div class="search-group">
+                        <input type="text" class="project-search" placeholder="Search projects..." id="projectSearch">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 19c-5 0-8-3-8-8s3-8 8-8 8 3 8 8-3 8-8 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17.5 17.5L23 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="projects-list" id="projectsList">
+                    <!-- Projects will be dynamically loaded here -->
+                    <div class="project-item" data-project-id="1" onclick="openProjectDetails(1)">
+                        <div class="project-item-header">
+                            <div class="project-status-dot status-active"></div>
+                            <h3 class="project-item-title">550 - 1460 Grand Avenue Development</h3>
+                            <div class="project-priority priority-high">High</div>
+                        </div>
+                        <div class="project-item-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Client:</span>
+                                <span class="meta-value">Chris Luna</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Team:</span>
+                                <span class="meta-value">Nuwan, Carolina, Gabriela</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Next Deadline:</span>
+                                <span class="meta-value critical">City Permit - 3 days</span>
+                            </div>
+                        </div>
+                        <div class="project-item-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <span class="progress-text">65% Complete</span>
+                        </div>
+                        <div class="project-item-actions">
+                            <button class="action-btn" onclick="viewProjectTasks(event, 1)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Tasks (16/24)
+                            </button>
+                            <button class="action-btn" onclick="viewProjectFiles(event, 1)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M13 2v7h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Files
+                            </button>
+                            <button class="action-btn" onclick="askAgent(event, 1)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Ask Agent
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="project-item" data-project-id="2" onclick="openProjectDetails(2)">
+                        <div class="project-item-header">
+                            <div class="project-status-dot status-pending"></div>
+                            <h3 class="project-item-title">Downtown Office Complex</h3>
+                            <div class="project-priority priority-medium">Medium</div>
+                        </div>
+                        <div class="project-item-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Client:</span>
+                                <span class="meta-value">Metro Properties</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Team:</span>
+                                <span class="meta-value">Kath, Nuwan</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Next Deadline:</span>
+                                <span class="meta-value">MEP Review - 7 days</span>
+                            </div>
+                        </div>
+                        <div class="project-item-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            <span class="progress-text">45% Complete</span>
+                        </div>
+                        <div class="project-item-actions">
+                            <button class="action-btn" onclick="viewProjectTasks(event, 2)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Tasks (8/18)
+                            </button>
+                            <button class="action-btn" onclick="viewProjectFiles(event, 2)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M13 2v7h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Files
+                            </button>
+                            <button class="action-btn" onclick="askAgent(event, 2)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Ask Agent
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    /* PROJECT MANAGEMENT CARD STYLES */
+    /* Integrates seamlessly with existing epic UI */
+
+    .project-management-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 24px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        grid-column: span 2; /* Takes up 2 columns in the grid */
+    }
+
+    .project-management-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .project-management-card:hover::before {
+        opacity: 1;
+    }
+
+    .project-management-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(139, 92, 246, 0.3);
+        box-shadow: 
+            0 20px 60px rgba(220, 38, 38, 0.15),
+            0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .card-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 16px;
+    }
+
+    .card-title-section {
+        flex: 1;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0 0 4px 0;
+    }
+
+    .card-subtitle {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0;
+    }
+
+    .project-status-indicators {
+        display: flex;
+        gap: 12px;
+    }
+
+    .critical-deadline-indicator,
+    .active-projects-indicator {
+        text-align: center;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .deadline-count,
+    .project-count {
+        display: block;
+        font-size: 18px;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1;
+    }
+
+    .deadline-label,
+    .project-label {
+        display: block;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 2px;
+    }
+
+    .critical-deadline-indicator {
+        border-color: rgba(139, 92, 246, 0.3);
+        background: rgba(139, 92, 246, 0.1);
+    }
+
+    .deadline-count {
+        color: #8B5CF6;
+    }
+
+    .card-content {
+        margin-bottom: 20px;
+    }
+
+    .project-overview {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .overview-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .overview-icon {
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .overview-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .overview-label {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 2px;
+    }
+
+    .overview-value {
+        font-size: 14px;
+        font-weight: 500;
+        color: #ffffff;
+    }
+
+    .project-quick-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .quick-action-btn {
+        flex: 1;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .quick-action-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(139, 92, 246, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .real-time-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .pulse-dot {
+        width: 8px;
+        height: 8px;
+        background: #22C55E;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+    }
+
+    .real-time-text {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .card-arrow {
+        color: rgba(255, 255, 255, 0.4);
+        transition: all 0.2s ease;
+    }
+
+    .project-management-card:hover .card-arrow {
+        color: rgba(139, 92, 246, 0.8);
+        transform: translateX(4px);
+    }
+
+    /* PROJECT MANAGEMENT MODAL STYLES */
+    .project-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        max-height: 90vh;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 
+            0 32px 80px rgba(0, 0, 0, 0.4),
+            0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 32px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0;
+    }
+
+    .modal-close {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-close:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .modal-body {
+        padding: 32px;
+        overflow-y: auto;
+        max-height: calc(90vh - 100px);
+    }
+
+    .project-filters {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        gap: 20px;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: rgba(139, 92, 246, 0.3);
+        color: #ffffff;
+    }
+
+    .search-group {
+        position: relative;
+        width: 300px;
+    }
+
+    .project-search {
+        width: 100%;
+        padding: 12px 16px 12px 44px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .project-search:focus {
+        border-color: rgba(139, 92, 246, 0.3);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .search-group svg {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .projects-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .project-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .project-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(139, 92, 246, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .project-item-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .project-status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #22C55E;
+    }
+
+    .status-active { background: #22C55E; }
+    .status-pending { background: #F59E0B; }
+    .status-critical { background: #8B5CF6; }
+
+    .project-item-title {
+        flex: 1;
+        font-size: 16px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0;
+    }
+
+    .project-priority {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .priority-high {
+        background: rgba(139, 92, 246, 0.2);
+        color: #8B5CF6;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .priority-medium {
+        background: rgba(245, 158, 11, 0.2);
+        color: #F59E0B;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .priority-low {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22C55E;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .project-item-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .meta-item {
+        display: flex;
+        gap: 8px;
+    }
+
+    .meta-label {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+    }
+
+    .meta-value {
+        font-size: 12px;
+        color: #ffffff;
+    }
+
+    .meta-value.critical {
+        color: #8B5CF6;
+        font-weight: 600;
+    }
+
+    .project-item-progress {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .progress-bar {
+        flex: 1;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #22C55E 0%, #16A34A 100%);
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+
+    .progress-text {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+    }
+
+    .project-item-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .action-btn {
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .action-btn:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: rgba(139, 92, 246, 0.3);
+        transform: translateY(-1px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .project-management-card {
+            grid-column: span 1;
+        }
+        
+        .project-filters {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 16px;
+        }
+        
+        .search-group {
+            width: 100%;
+        }
+        
+        .filter-group {
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        
+        .project-item-meta {
+            grid-template-columns: 1fr;
+        }
+        
+        .project-item-actions {
+            flex-wrap: wrap;
+        }
+        
+        .modal-content {
+            margin: 10px;
+            max-height: calc(100vh - 20px);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+    }
+    </style>
+

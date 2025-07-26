@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Google Workspace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-button {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #8B5CF6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .action-button.google {
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 50%, #FBBC05 75%, #EA4335 100%);
+        }
+
+        .action-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .permission-banner {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .permission-banner.hidden {
+            display: none;
+        }
+
+        .permission-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .permission-text {
+            flex: 1;
+            color: white;
+            font-weight: 600;
+        }
+
+        .upgrade-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .upgrade-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .accounts-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .account-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .account-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1);
+        }
+
+        .account-card.primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4285F4 0%, #34A853 50%, #FBBC05 75%, #EA4335 100%);
+        }
+
+        .account-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .google-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .account-info {
+            flex: 1;
+        }
+
+        .account-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .account-email {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .account-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-connected {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+
+        .status-limited {
+            background: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+        }
+
+        .account-services {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .service-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .service-icon {
+            width: 24px;
+            height: 24px;
+            margin: 0 auto 8px;
+        }
+
+        .service-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .service-count {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            color: #8B5CF6;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .activity-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .activity-item:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .activity-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .activity-service-icon {
+            width: 20px;
+            height: 20px;
+            color: #4285F4;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: white;
+            flex: 1;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .activity-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 32px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quick-action {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .quick-action:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .quick-action-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
+            color: #8B5CF6;
+        }
+
+        .quick-action-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .quick-action-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .integration-status {
+            margin-bottom: 24px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4285F4;
+            margin-bottom: 4px;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .action-button {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .accounts-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .account-services {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Chat Interface Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .chat-toggle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 8px 32px rgba(139, 92, 246, 0.3),
+                0 4px 16px rgba(139, 92, 246, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .chat-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(139, 92, 246, 0.4),
+                0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .chat-toggle-icon {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .chat-notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <a href="javascript:history.back()" class="back-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Dashboard
+                </a>
+                <div>
+                    <h1 class="page-title">Google Workspace</h1>
+                    <p class="page-subtitle">Comprehensive Google integration and multi-account management</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-button secondary" onclick="managePermissions()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                    </svg>
+                    Manage Permissions
+                </button>
+                <button class="action-button google" onclick="addGoogleAccount()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Add Google Account
+                </button>
+            </div>
+        </div>
+
+        <!-- Permission Banner (shown for limited access users) -->
+        <div id="permissionBanner" class="permission-banner hidden">
+            <svg class="permission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12l2 2 4-4"/>
+                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                <path d="M13 12h3"/>
+                <path d="M11 12H8"/>
+            </svg>
+            <span class="permission-text">Limited Google Workspace access. Upgrade to connect multiple accounts and access advanced features.</span>
+            <a href="#" class="upgrade-button">Upgrade Now</a>
+        </div>
+
+        <!-- Connected Accounts Overview -->
+        <div class="accounts-overview">
+            <div class="account-card primary">
+                <div class="account-header">
+                    <div class="google-avatar">JD</div>
+                    <div class="account-info">
+                        <div class="account-name">John Doe</div>
+                        <div class="account-email">john.doe@objx.design</div>
+                    </div>
+                    <span class="account-status status-connected">Connected</span>
+                </div>
+                <div class="account-services">
+                    <div class="service-item" onclick="openGmail('john.doe@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <div class="service-name">Gmail</div>
+                        <div class="service-count">23 unread</div>
+                    </div>
+                    <div class="service-item" onclick="openDrive('john.doe@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                        </svg>
+                        <div class="service-name">Drive</div>
+                        <div class="service-count">156 files</div>
+                    </div>
+                    <div class="service-item" onclick="openCalendar('john.doe@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <div class="service-name">Calendar</div>
+                        <div class="service-count">5 today</div>
+                    </div>
+                    <div class="service-item" onclick="openDocs('john.doe@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                        <div class="service-name">Docs</div>
+                        <div class="service-count">12 recent</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-card" id="secondaryAccount">
+                <div class="account-header">
+                    <div class="google-avatar">SM</div>
+                    <div class="account-info">
+                        <div class="account-name">Sarah Miller</div>
+                        <div class="account-email">sarah.miller@objx.design</div>
+                    </div>
+                    <span class="account-status status-connected">Connected</span>
+                </div>
+                <div class="account-services">
+                    <div class="service-item" onclick="openGmail('sarah.miller@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <div class="service-name">Gmail</div>
+                        <div class="service-count">8 unread</div>
+                    </div>
+                    <div class="service-item" onclick="openDrive('sarah.miller@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                        </svg>
+                        <div class="service-name">Drive</div>
+                        <div class="service-count">89 files</div>
+                    </div>
+                    <div class="service-item" onclick="openCalendar('sarah.miller@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <div class="service-name">Calendar</div>
+                        <div class="service-count">3 today</div>
+                    </div>
+                    <div class="service-item" onclick="openDocs('sarah.miller@objx.design')">
+                        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                        <div class="service-name">Docs</div>
+                        <div class="service-count">7 recent</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-card" id="addAccountCard" onclick="addGoogleAccount()" style="cursor: pointer; border: 2px dashed rgba(255, 255, 255, 0.3); display: flex; align-items: center; justify-content: center; min-height: 200px;">
+                <div style="text-align: center;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: rgba(255, 255, 255, 0.5); margin-bottom: 12px;">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    <div style="color: rgba(255, 255, 255, 0.7); font-weight: 600;">Add Google Account</div>
+                    <div style="color: rgba(255, 255, 255, 0.5); font-size: 12px; margin-top: 4px;">Connect additional workspace</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Status -->
+        <div class="content-section integration-status">
+            <h2 class="section-title">
+                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                Integration Status
+            </h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-value">2</div>
+                    <div class="status-label">Connected Accounts</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value">31</div>
+                    <div class="status-label">Unread Emails</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value">245</div>
+                    <div class="status-label">Total Files</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value">8</div>
+                    <div class="status-label">Today's Events</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value">19</div>
+                    <div class="status-label">Recent Documents</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value">98%</div>
+                    <div class="status-label">Sync Health</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-section">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+                    </svg>
+                    Recent Activity
+                </h2>
+
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-header">
+                            <svg class="activity-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <div class="activity-title">New email from Municipal Development Corp</div>
+                            <div class="activity-time">2 hours ago</div>
+                        </div>
+                        <div class="activity-description">Permit application status update - requires immediate attention</div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-header">
+                            <svg class="activity-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <div class="activity-title">Calendar event reminder: Client meeting</div>
+                            <div class="activity-time">4 hours ago</div>
+                        </div>
+                        <div class="activity-description">Sunset Properties project review scheduled for tomorrow at 2 PM</div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-header">
+                            <svg class="activity-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                            <div class="activity-title">Document shared: Environmental Impact Assessment</div>
+                            <div class="activity-time">6 hours ago</div>
+                        </div>
+                        <div class="activity-description">Sarah Miller shared the completed assessment document</div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-header">
+                            <svg class="activity-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                            </svg>
+                            <div class="activity-title">New folder created: Q1 2024 Projects</div>
+                            <div class="activity-time">1 day ago</div>
+                        </div>
+                        <div class="activity-description">Organized project files for better collaboration</div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-header">
+                            <svg class="activity-service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <div class="activity-title">Email thread: Zoning compliance discussion</div>
+                            <div class="activity-time">2 days ago</div>
+                        </div>
+                        <div class="activity-description">Ongoing discussion with city planning department</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        </svg>
+                        Quick Actions
+                    </h2>
+                    <div class="quick-actions">
+                        <div class="quick-action" onclick="composeEmail()">
+                            <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <div class="quick-action-title">Compose Email</div>
+                            <div class="quick-action-desc">Send email from any connected account</div>
+                        </div>
+                        <div class="quick-action" onclick="createDocument()">
+                            <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                            <div class="quick-action-title">Create Document</div>
+                            <div class="quick-action-desc">New Google Doc with project template</div>
+                        </div>
+                        <div class="quick-action" onclick="scheduleEvent()">
+                            <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <div class="quick-action-title">Schedule Event</div>
+                            <div class="quick-action-desc">Create calendar event with team</div>
+                        </div>
+                        <div class="quick-action" onclick="uploadFiles()">
+                            <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                <polyline points="7,10 12,15 17,10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            <div class="quick-action-title">Upload Files</div>
+                            <div class="quick-action-desc">Add files to shared project folders</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-container">
+        <button class="chat-toggle" onclick="toggleChat()">
+            <svg class="chat-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span class="chat-notification-badge">3</span>
+        </button>
+    </div>
+
+    <script>
+        // User permission simulation (would come from backend)
+        const userPermissions = {
+            tier: 'admin', // admin, staff, tier1, tier2, tier3
+            role: 'admin'
+        };
+
+        function initializePage() {
+            checkPermissions();
+        }
+
+        function checkPermissions() {
+            const banner = document.getElementById('permissionBanner');
+            const secondaryAccount = document.getElementById('secondaryAccount');
+            
+            // Show permission banner and hide secondary account for limited access users
+            if (userPermissions.tier === 'tier1' || userPermissions.tier === 'tier2') {
+                banner.classList.remove('hidden');
+                if (secondaryAccount) {
+                    secondaryAccount.style.display = 'none';
+                }
+            }
+        }
+
+        function addGoogleAccount() {
+            if (userPermissions.tier === 'tier1') {
+                alert('Multiple Google accounts require Tier 2 or higher access. Please upgrade your account.');
+                return;
+            }
+            
+            alert('Opening Google OAuth flow to add new account...');
+        }
+
+        function managePermissions() {
+            if (userPermissions.tier !== 'admin' && userPermissions.tier !== 'staff') {
+                alert('Permission management requires Staff or Admin access.');
+                return;
+            }
+            
+            alert('Opening Google Workspace permission management...');
+        }
+
+        function openGmail(email) {
+            window.open(`https://mail.google.com/mail/u/${email}`, '_blank');
+        }
+
+        function openDrive(email) {
+            window.open(`https://drive.google.com/drive/u/${email}`, '_blank');
+        }
+
+        function openCalendar(email) {
+            window.open(`https://calendar.google.com/calendar/u/${email}`, '_blank');
+        }
+
+        function openDocs(email) {
+            window.open(`https://docs.google.com/document/u/${email}`, '_blank');
+        }
+
+        function composeEmail() {
+            alert('Opening email composition interface...');
+        }
+
+        function createDocument() {
+            alert('Creating new Google Document with project template...');
+        }
+
+        function scheduleEvent() {
+            alert('Opening calendar event creation...');
+        }
+
+        function uploadFiles() {
+            alert('Opening file upload interface...');
+        }
+
+        function toggleChat() {
+            alert('Chat interface would open here');
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
+

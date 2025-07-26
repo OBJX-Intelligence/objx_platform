@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Complete Methodology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #1a1a1a;
+            min-height: 100vh;
+            color: #ffffff;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            opacity: 0;
+            animation: pageLoad 0.8s ease-out forwards;
+        }
+
+        @keyframes pageLoad {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .header {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            animation: logoBreath 3s ease-in-out infinite;
+        }
+
+        @keyframes logoBreath {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02);
+            }
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-name .accent {
+            color: #8B5CF6;
+            font-weight: 400;
+        }
+
+        .tier-badge {
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .white-label-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .white-label-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .main-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 40px;
+        }
+
+        .dashboard-section {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .command-center {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .command-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .command-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 16px;
+        }
+
+        .methodology-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 32px;
+        }
+
+        .methodology-text::before {
+            content: "• ";
+            color: #DC2626;
+        }
+
+        .methodology-text::after {
+            content: " •";
+            color: #DC2626;
+        }
+
+        .agent-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .agent-card {
+            background: rgba(30, 30, 30, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: agentCardSlideIn 0.5s ease-out forwards;
+        }
+
+        .agent-card:nth-child(1) { animation-delay: 0.1s; }
+        .agent-card:nth-child(2) { animation-delay: 0.2s; }
+        .agent-card:nth-child(3) { animation-delay: 0.3s; }
+        .agent-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes agentCardSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .agent-card:hover {
+            background: rgba(40, 40, 40, 0.95);
+            border-color: rgba(220, 38, 38, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .agent-status-indicator {
+            width: 12px;
+            height: 12px;
+            background: #10B981;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .agent-status-indicator::after {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: rgba(16, 185, 129, 0.3);
+            border-radius: 50%;
+            animation: pulse 2s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .agent-activity {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .quick-action-btn {
+            position: relative;
+            padding: 16px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        .quick-action-btn:nth-child(1) {
+            background: rgba(30, 30, 30, 0.95);
+            border: 2px solid #F59E0B;
+        }
+
+        .quick-action-btn:nth-child(2) {
+            background: rgba(30, 30, 30, 0.95);
+            border: 2px solid #8B5CF6;
+        }
+
+        .quick-action-btn:nth-child(3) {
+            background: rgba(30, 30, 30, 0.95);
+            border: 2px solid #10B981;
+        }
+
+        .quick-action-btn:nth-child(4) {
+            background: rgba(30, 30, 30, 0.95);
+            border: 2px solid #EC4899;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(40, 40, 40, 0.95);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .quick-action-btn::after {
+            content: attr(data-number);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .quick-action-btn:nth-child(1)::after {
+            background: #F59E0B;
+        }
+
+        .quick-action-btn:nth-child(2)::after {
+            background: #8B5CF6;
+        }
+
+        .quick-action-btn:nth-child(3)::after {
+            background: #10B981;
+        }
+
+        .quick-action-btn:nth-child(4)::after {
+            background: #EC4899;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .new-project-btn {
+            background: rgba(30, 30, 30, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .new-project-btn:hover {
+            background: rgba(40, 40, 40, 0.95);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .new-project-btn::after {
+            content: attr(data-number);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: #8B5CF6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            position: relative;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: projectSlideIn 0.6s ease-out forwards;
+        }
+
+        .project-card:nth-child(1) { 
+            animation-delay: 0.1s; 
+            border: 2px solid #F59E0B;
+        }
+        
+        .project-card:nth-child(2) { 
+            animation-delay: 0.2s;
+            border: 2px solid #10B981;
+        }
+
+        .project-card::after {
+            content: attr(data-number);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: #F59E0B;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .project-card:nth-child(2)::after {
+            background: #10B981;
+        }
+
+        @keyframes projectSlideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .project-card:hover {
+            background: rgba(40, 40, 40, 0.95);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-status {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            margin-bottom: 16px;
+        }
+
+        .project-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .project-type {
+            font-size: 12px;
+            color: #DC2626;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .project-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 12px;
+        }
+
+        .project-meta span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .advanced-programs {
+            margin-top: 16px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .program-card {
+            position: relative;
+            background: rgba(30, 30, 30, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: programFadeUp 0.6s ease-out forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .program-card:nth-child(1) { animation-delay: 0.1s; }
+        .program-card:nth-child(2) { animation-delay: 0.2s; }
+        .program-card:nth-child(3) { animation-delay: 0.3s; }
+        .program-card:nth-child(4) { animation-delay: 0.4s; }
+        .program-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .program-card:hover {
+            background: rgba(40, 40, 40, 0.95);
+            border-color: rgba(220, 38, 38, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(220, 38, 38, 0.15);
+        }
+
+        .program-card::after {
+            content: attr(data-number);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: #DC2626;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        @keyframes programFadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .program-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .program-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .program-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            opacity: 0;
+            transform: translateX(30px);
+            animation: sidebarSlideIn 0.8s ease-out 0.6s forwards;
+        }
+
+        @keyframes sidebarSlideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .proactive-insights {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .insight-item {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .insight-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .insight-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .document-generation {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .document-templates {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .template-btn {
+            position: relative;
+            background: rgba(30, 30, 30, 0.95);
+            padding: 12px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            border-radius: 8px;
+        }
+
+        .template-btn:nth-child(1) {
+            border: 2px solid #DC2626;
+        }
+
+        .template-btn:nth-child(2) {
+            border: 2px solid #3B82F6;
+        }
+
+        .template-btn:nth-child(3) {
+            border: 2px solid #DC2626;
+        }
+
+        .template-btn:nth-child(4) {
+            border: 2px solid #10B981;
+        }
+
+        .template-btn:nth-child(5) {
+            border: 2px solid #8B5CF6;
+        }
+
+        .template-btn:hover {
+            background: rgba(40, 40, 40, 0.95);
+            transform: translateY(-2px);
+        }
+
+        .template-btn::after {
+            content: attr(data-number);
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .template-btn:nth-child(1)::after {
+            background: #DC2626;
+        }
+
+        .template-btn:nth-child(2)::after {
+            background: #3B82F6;
+        }
+
+        .template-btn:nth-child(3)::after {
+            background: #DC2626;
+        }
+
+        .template-btn:nth-child(4)::after {
+            background: #10B981;
+        }
+
+        .template-btn:nth-child(5)::after {
+            background: #8B5CF6;
+        }
+
+        .white-label-section {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .white-label-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .white-label-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .white-label-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .white-label-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.2);
+        }
+
+        /* Success message */
+        .success-message {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #10B981;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fix for device pixel ratio issues */
+        @media screen and (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <svg class="logo" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="15" stroke="white" stroke-width="2"/>
+                    <circle cx="16" cy="16" r="7" fill="#DC2626"/>
+                </svg>
+                <div class="brand-name">
+                    OBJX<span class="accent">Intelligence</span>
+                </div>
+                <div class="tier-badge">TIER 3 - COMPLETE METHODOLOGY</div>
+            </div>
+            <div class="user-section">
+                <a href="#" class="white-label-btn" data-number="1">White Label Inquiry</a>
+                <button onclick="logout()" style="background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;" data-number="2">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="dashboard-section">
+            <div class="command-center">
+                <h1 class="command-title">Master Systematic Thinking with Automation</h1>
+                <p class="command-subtitle">Agent-powered command center with complete methodology access</p>
+                <p class="methodology-text">clarify • compound • create</p>
+                
+                <div class="agent-status" id="agent-status-container">
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Analysis Agent</div>
+                            <div class="agent-activity">Idle</div>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Document Agent</div>
+                            <div class="agent-activity">Idle</div>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Memory Agent</div>
+                            <div class="agent-activity">Idle</div>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-status-indicator"></div>
+                        <div class="agent-info">
+                            <div class="agent-name">Workflow Agent</div>
+                            <div class="agent-activity">Idle</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="quick-action-btn" onclick="generateDocument()" data-number="3">Generate Document</button>
+                    <button class="quick-action-btn" onclick="runAnalysis()" data-number="4">Run Analysis</button>
+                    <button class="quick-action-btn" onclick="orchestrateAgents()" data-number="5">Orchestrate Agents</button>
+                    <button class="quick-action-btn" onclick="optimizeWorkflow()" data-number="6">Optimize Workflow</button>
+                </div>
+            </div>
+
+            <div class="projects-section">
+                <div class="section-header">
+                    <h2 class="section-title">Advanced Projects</h2>
+                    <button class="new-project-btn" onclick="createAdvancedProject()" data-number="7">+ New Advanced Project</button>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card" onclick="openProject('enterprise-1')" data-number="8">
+                        <div class="project-status"></div>
+                        <div class="project-title">Enterprise Development Hub</div>
+                        <div class="project-type">COMPLETE METHODOLOGY</div>
+                        <div class="project-description">Full-scale development project with automated document generation, regulatory navigation, and systematic workflow optimization.</div>
+                        <div class="project-meta">
+                            <span>Agent-managed</span>
+                            <span>Auto-updating</span>
+                        </div>
+                    </div>
+                    <div class="project-card" onclick="openProject('enterprise-2')" data-number="9">
+                        <div class="project-status"></div>
+                        <div class="project-title">Municipal Integration System</div>
+                        <div class="project-type">REGULATORY NAVIGATION</div>
+                        <div class="project-description">Complete permit and approval process automation with systematic thinking methodology.</div>
+                        <div class="project-meta">
+                            <span>Proactive monitoring</span>
+                            <span>95% automated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="advanced-programs">
+                <div class="section-header">
+                    <h2 class="section-title">Complete Methodology Programs</h2>
+                </div>
+                <div class="programs-grid" id="programs-container">
+                    <!-- Program cards will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="proactive-insights">
+                <h3 class="section-title">Proactive Intelligence</h3>
+                <div id="insights-container">
+                    <div class="insight-item">
+                        <div class="insight-title">Opportunity Identified</div>
+                        <div class="insight-description">Market analysis suggests optimal timing for Phase 2 expansion. Systematic risk assessment recommends proceeding.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-title">Process Optimization</div>
+                        <div class="insight-description">Agent orchestration has reduced project timeline by 40% through systematic workflow improvements.</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-title">Regulatory Update</div>
+                        <div class="insight-description">New municipal requirements detected. Automatic compliance adjustments applied to active projects.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-generation">
+                <h3 class="section-title">Document Generation</h3>
+                <div class="document-templates" id="templates-container">
+                    <button class="template-btn" onclick="generateTemplateDocument('proposal')" data-number="10">Business Proposal</button>
+                    <button class="template-btn" onclick="generateTemplateDocument('analysis')" data-number="11">Market Analysis</button>
+                    <button class="template-btn" onclick="generateTemplateDocument('report')" data-number="12">Project Report</button>
+                    <button class="template-btn" onclick="generateTemplateDocument('feasibility')" data-number="13">Feasibility Study</button>
+                    <button class="template-btn" onclick="generateTemplateDocument('presentation')" data-number="14">Presentation Deck</button>
+                </div>
+            </div>
+
+            <div class="white-label-section">
+                <h3 class="white-label-title">Ready for White Label?</h3>
+                <p class="white-label-description">
+                    License the complete systematic thinking methodology for your organization with custom branding and deployment.
+                </p>
+                <a href="#" class="white-label-button">Explore White Label</a>
+            </div>
+        </div>
+    </main>
+
+    <div class="success-message">Dashboard initialized successfully</div>
+
+    <script>
+        // Global variables
+        let agentStatus = {};
+        let documentTemplates = [];
+        let userToken = 'mock_token_' + Math.random().toString(36).substring(2);
+        
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fix for device pixel ratio issues
+            (function() {
+                const dpr = window.devicePixelRatio;
+                console.log('Device Pixel Ratio:', dpr);
+                
+                if (dpr < 1) {
+                    const scaleFactor = 1 / dpr;
+                    console.log('Applying scale factor:', scaleFactor);
+                    
+                    // Apply scaling to fix low DPR display
+                    document.documentElement.style.transform = `scale(${scaleFactor})`;
+                    document.documentElement.style.transformOrigin = 'top left';
+                    document.documentElement.style.width = `${100 / scaleFactor}%`;
+                    document.documentElement.style.height = `${100 / scaleFactor}%`;
+                    
+                    console.log('DPR scaling fix applied');
+                }
+            })();
+            
+            // Initialize the dashboard
+            initializeDashboard();
+        });
+
+        // Initialize dashboard with API data
+        async function initializeDashboard() {
+            try {
+                // Fetch programs
+                await fetchPrograms();
+            } catch (error) {
+                console.error('Error initializing dashboard:', error);
+            }
+        }
+
+        // Fetch programs from API
+        async function fetchPrograms() {
+            // In a real implementation, this would fetch from an API
+            // For now, we'll use demo data
+            const programs = [
+                {
+                    id: 'document-creation',
+                    title: 'Full Document Creation',
+                    description: 'Visual reports, comprehensive proposals, and feasibility studies with systematic methodology.',
+                    icon: '📄',
+                    number: 10
+                },
+                {
+                    id: 'agent-orchestration',
+                    title: 'Agent Orchestration',
+                    description: 'Complete automation with systematic thinking-guided agent coordination.',
+                    icon: '🎭',
+                    number: 11
+                },
+                {
+                    id: 'project-management',
+                    title: 'Advanced Project Management',
+                    description: 'Full business ecosystem replacement with systematic workflow optimization.',
+                    icon: '📊',
+                    number: 12
+                },
+                {
+                    id: 'visual-analytics',
+                    title: 'Visual Analytics',
+                    description: 'Charts, graphs, and comprehensive reporting with systematic intelligence.',
+                    icon: '📈',
+                    number: 13
+                },
+                {
+                    id: 'regulatory-navigation',
+                    title: 'Regulatory Navigation',
+                    description: 'Complete permit and approval process optimization with systematic approach.',
+                    icon: '🏛️',
+                    number: 14
+                }
+            ];
+            
+            updateProgramsUI(programs);
+        }
+
+        // Update programs UI
+        function updateProgramsUI(programs) {
+            const container = document.getElementById('programs-container');
+            container.innerHTML = '';
+            
+            // Create program cards
+            programs.forEach(program => {
+                const card = document.createElement('div');
+                card.className = 'program-card';
+                card.setAttribute('data-number', program.number);
+                card.onclick = () => openProgram(program.id);
+                
+                card.innerHTML = `
+                    <div class="program-icon">${program.icon}</div>
+                    <div class="program-title">${program.title}</div>
+                    <div class="program-description">${program.description}</div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Generate document
+        function generateDocument() {
+            console.log('Generate document clicked');
+        }
+
+        // Generate template document
+        function generateTemplateDocument(template) {
+            console.log('Generate template document clicked:', template);
+        }
+
+        // Run analysis
+        function runAnalysis() {
+            console.log('Run analysis clicked');
+        }
+
+        // Orchestrate agents
+        function orchestrateAgents() {
+            console.log('Orchestrate agents clicked');
+        }
+
+        // Optimize workflow
+        function optimizeWorkflow() {
+            console.log('Optimize workflow clicked');
+        }
+
+        // Open project
+        function openProject(projectId) {
+            console.log('Open project clicked:', projectId);
+        }
+
+        // Create advanced project
+        function createAdvancedProject() {
+            console.log('Create advanced project clicked');
+        }
+
+        // Open program
+        function openProgram(programId) {
+            console.log('Open program clicked:', programId);
+        }
+
+        // Logout
+        function logout() {
+            console.log('Logout clicked');
+        }
+    </script>
+</body>
+</html>
+

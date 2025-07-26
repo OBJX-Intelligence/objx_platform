@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Strategic Chat Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-header {
+            padding: 20px 30px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(30, 144, 255, 0.1) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-title {
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #8a2be2, #1e90ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .intelligence-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: rgba(138, 43, 226, 0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .intelligence-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            display: flex;
+            gap: 15px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #1e90ff, #00bfff);
+        }
+
+        .assistant-avatar {
+            background: linear-gradient(135deg, #8a2be2, #9370db);
+        }
+
+        .message-content {
+            flex: 1;
+            max-width: 70%;
+        }
+
+        .message-bubble {
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .user .message-bubble {
+            background: linear-gradient(135deg, #1e90ff, #00bfff);
+            color: white;
+            border-bottom-right-radius: 8px;
+        }
+
+        .assistant .message-bubble {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: 8px;
+        }
+
+        .strategic-enhancement {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 12px;
+            border-left: 3px solid #8a2be2;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .trinity-insights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .trinity-card {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .trinity-card h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            opacity: 0.8;
+        }
+
+        .clarify { border-left: 3px solid #00ff88; }
+        .compound { border-left: 3px solid #ffa500; }
+        .create { border-left: 3px solid #ff6b6b; }
+
+        .proactive-suggestions {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .suggestion-item {
+            padding: 6px 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #8a2be2;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8a2be2, #9370db);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .thinking-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            margin: 10px 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .thinking-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .thinking-dot {
+            width: 6px;
+            height: 6px;
+            background: #8a2be2;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .thinking-dot:nth-child(1) { animation-delay: -0.32s; }
+        .thinking-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        .assistant-capabilities {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .capability-tag {
+            padding: 4px 8px;
+            background: rgba(138, 43, 226, 0.2);
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .invisible-intelligence-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            font-size: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .chat-header {
+                padding: 15px 20px;
+            }
+
+            .chat-title {
+                font-size: 20px;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .trinity-insights {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-input-container {
+                padding: 15px;
+            }
+        }
+
+        /* Smooth transitions for all interactive elements */
+        * {
+            transition: all 0.3s ease;
+        }
+
+        /* Custom scrollbar */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(138, 43, 226, 0.5);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(138, 43, 226, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="chat-title">Strategic Intelligence Chat</div>
+            <div class="intelligence-indicator">
+                <div class="intelligence-dot"></div>
+                <span>Trinity Foundation Active</span>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- Welcome message -->
+            <div class="message assistant">
+                <div class="message-avatar assistant-avatar">AI</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <div class="invisible-intelligence-badge">Invisible Intelligence</div>
+                        Welcome to your Strategic Intelligence Partner. I'm here to enhance your thinking using the Trinity Foundation methodology - completely invisibly. How can I help you think through your current challenge or opportunity?
+                    </div>
+                    <div class="assistant-capabilities">
+                        <div class="capability-tag">Strategic Thinking</div>
+                        <div class="capability-tag">Pattern Recognition</div>
+                        <div class="capability-tag">Value Creation</div>
+                        <div class="capability-tag">Invisible Methodology</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <textarea 
+                    id="chatInput" 
+                    class="chat-input" 
+                    placeholder="Share your thoughts, challenges, or opportunities..."
+                    rows="1"
+                ></textarea>
+                <button id="sendButton" class="send-button">
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class StrategicChatInterface {
+            constructor() {
+                this.chatMessages = document.getElementById('chatMessages');
+                this.chatInput = document.getElementById('chatInput');
+                this.sendButton = document.getElementById('sendButton');
+                
+                this.initializeEventListeners();
+                this.autoResizeTextarea();
+            }
+
+            initializeEventListeners() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                this.chatInput.addEventListener('input', () => {
+                    this.autoResizeTextarea();
+                });
+            }
+
+            autoResizeTextarea() {
+                this.chatInput.style.height = 'auto';
+                this.chatInput.style.height = Math.min(this.chatInput.scrollHeight, 120) + 'px';
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+
+                // Disable input while processing
+                this.setInputState(false);
+
+                // Add user message
+                this.addMessage(message, 'user');
+
+                // Clear input
+                this.chatInput.value = '';
+                this.autoResizeTextarea();
+
+                // Show thinking indicator
+                const thinkingId = this.showThinkingIndicator();
+
+                try {
+                    // Get strategic response with invisible intelligence
+                    const response = await this.getStrategicResponse(message);
+                    
+                    // Remove thinking indicator
+                    this.removeThinkingIndicator(thinkingId);
+                    
+                    // Add assistant response with strategic enhancements
+                    this.addStrategicResponse(response);
+                    
+                } catch (error) {
+                    console.error('Error getting strategic response:', error);
+                    this.removeThinkingIndicator(thinkingId);
+                    this.addMessage('I apologize, but I encountered an issue processing your request. Please try again.', 'assistant');
+                } finally {
+                    this.setInputState(true);
+                }
+            }
+
+            addMessage(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = `message-avatar ${sender}-avatar`;
+                avatar.textContent = sender === 'user' ? 'You' : 'AI';
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                bubble.textContent = content;
+                
+                messageContent.appendChild(bubble);
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(messageContent);
+                
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addStrategicResponse(response) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message assistant';
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar assistant-avatar';
+                avatar.textContent = 'AI';
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                
+                // Main response bubble
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                
+                // Add invisible intelligence badge
+                const badge = document.createElement('div');
+                badge.className = 'invisible-intelligence-badge';
+                badge.textContent = 'Strategic Intelligence';
+                bubble.appendChild(badge);
+                
+                const mainMessage = document.createElement('div');
+                mainMessage.textContent = response.response?.message || response.message || 'Strategic insight generated.';
+                bubble.appendChild(mainMessage);
+                
+                messageContent.appendChild(bubble);
+
+                // Add strategic enhancements if available
+                if (response.response?.strategic_enhancements) {
+                    this.addStrategicEnhancements(messageContent, response.response.strategic_enhancements);
+                }
+
+                // Add Trinity insights if available
+                if (response.response?.trinity_application) {
+                    this.addTrinityInsights(messageContent, response.response.trinity_application);
+                }
+
+                // Add proactive suggestions if available
+                if (response.response?.proactive_suggestions) {
+                    this.addProactiveSuggestions(messageContent, response.response.proactive_suggestions);
+                }
+
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(messageContent);
+                
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addStrategicEnhancements(container, enhancements) {
+                if (!enhancements.contextual_assistance) return;
+
+                const enhancementDiv = document.createElement('div');
+                enhancementDiv.className = 'strategic-enhancement';
+                
+                const title = document.createElement('div');
+                title.style.fontWeight = '600';
+                title.style.marginBottom = '8px';
+                title.textContent = 'Strategic Considerations:';
+                enhancementDiv.appendChild(title);
+
+                // Add strategic insights
+                if (enhancements.contextual_assistance.strategic_insights) {
+                    enhancements.contextual_assistance.strategic_insights.forEach(insight => {
+                        const insightDiv = document.createElement('div');
+                        insightDiv.style.marginBottom = '4px';
+                        insightDiv.textContent = `• ${insight}`;
+                        enhancementDiv.appendChild(insightDiv);
+                    });
+                }
+
+                container.appendChild(enhancementDiv);
+            }
+
+            addTrinityInsights(container, trinityData) {
+                if (!trinityData.trinity_insights) return;
+
+                const trinityDiv = document.createElement('div');
+                trinityDiv.className = 'trinity-insights';
+
+                // Clarify insights
+                if (trinityData.trinity_insights.strategic_clarity) {
+                    const clarifyCard = this.createTrinityCard('Clarify', 'Strategic clarity enhanced', 'clarify');
+                    trinityDiv.appendChild(clarifyCard);
+                }
+
+                // Compound insights
+                if (trinityData.trinity_insights.pattern_connections) {
+                    const compoundCard = this.createTrinityCard('Compound', 'Pattern connections identified', 'compound');
+                    trinityDiv.appendChild(compoundCard);
+                }
+
+                // Create insights
+                if (trinityData.trinity_insights.value_creation) {
+                    const createCard = this.createTrinityCard('Create', 'Value creation opportunities', 'create');
+                    trinityDiv.appendChild(createCard);
+                }
+
+                container.appendChild(trinityDiv);
+            }
+
+            createTrinityCard(title, content, type) {
+                const card = document.createElement('div');
+                card.className = `trinity-card ${type}`;
+                
+                const cardTitle = document.createElement('h4');
+                cardTitle.textContent = title;
+                
+                const cardContent = document.createElement('div');
+                cardContent.textContent = content;
+                
+                card.appendChild(cardTitle);
+                card.appendChild(cardContent);
+                
+                return card;
+            }
+
+            addProactiveSuggestions(container, suggestions) {
+                if (!suggestions || suggestions.length === 0) return;
+
+                const suggestionsDiv = document.createElement('div');
+                suggestionsDiv.className = 'proactive-suggestions';
+                
+                const title = document.createElement('div');
+                title.style.fontWeight = '600';
+                title.style.marginBottom = '8px';
+                title.textContent = 'Proactive Insights:';
+                suggestionsDiv.appendChild(title);
+
+                suggestions.forEach(suggestion => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'suggestion-item';
+                    suggestionItem.textContent = `→ ${suggestion}`;
+                    suggestionsDiv.appendChild(suggestionItem);
+                });
+
+                container.appendChild(suggestionsDiv);
+            }
+
+            showThinkingIndicator() {
+                const thinkingId = 'thinking-' + Date.now();
+                const thinkingDiv = document.createElement('div');
+                thinkingDiv.className = 'thinking-indicator';
+                thinkingDiv.id = thinkingId;
+                
+                thinkingDiv.innerHTML = `
+                    <span>Strategic analysis in progress</span>
+                    <div class="thinking-dots">
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                    </div>
+                `;
+                
+                this.chatMessages.appendChild(thinkingDiv);
+                this.scrollToBottom();
+                
+                return thinkingId;
+            }
+
+            removeThinkingIndicator(thinkingId) {
+                const thinkingElement = document.getElementById(thinkingId);
+                if (thinkingElement) {
+                    thinkingElement.remove();
+                }
+            }
+
+            async getStrategicResponse(userInput) {
+                const context = {
+                    user_id: 'current_user',
+                    current_page: 'chat_interface',
+                    decision_required: userInput.includes('?'),
+                    planning_mode: userInput.toLowerCase().includes('plan'),
+                    challenges: userInput.toLowerCase().includes('challenge') || userInput.toLowerCase().includes('problem'),
+                    client_interaction: userInput.toLowerCase().includes('client'),
+                    timestamp: new Date().toISOString()
+                };
+
+                const response = await fetch('/api/chat/message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: userInput,
+                        context: context
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get strategic response');
+                }
+
+                return await response.json();
+            }
+
+            setInputState(enabled) {
+                this.chatInput.disabled = !enabled;
+                this.sendButton.disabled = !enabled;
+                
+                if (enabled) {
+                    this.chatInput.focus();
+                }
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+                }, 100);
+            }
+        }
+
+        // Initialize the strategic chat interface
+        document.addEventListener('DOMContentLoaded', () => {
+            new StrategicChatInterface();
+        });
+    </script>
+</body>
+</html>
+

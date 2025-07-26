@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Compound Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Dynamic Animations & Micro-Interactions */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes logoBreath {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.02); opacity: 0.25; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        /* Enhanced Logo Animation */
+        .logo {
+            animation: logoBreath 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            animation-duration: 2s;
+            transform: scale(1.05);
+        }
+
+        /* Logo Theme Switching */
+        .logo-dark {
+            display: block !important;
+        }
+
+        .logo-light {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-dark {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-light {
+            display: block !important;
+        }
+        
+        /* Dynamic Content Loading */
+        .welcome-section h1 {
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .welcome-section p {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        
+        .methodology-text {
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        /* Enhanced Program Card Interactions */
+        .program-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: inherit;
+        }
+        
+        .program-card:hover::before {
+            opacity: 1;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 60px rgba(59, 130, 246, 0.2),
+                0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Project Card Animations */
+        .project-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInLeft 0.8s ease-out both;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 
+                0 12px 40px rgba(59, 130, 246, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .project-card:nth-child(1) { animation-delay: 0.8s; }
+        .project-card:nth-child(2) { animation-delay: 1.0s; }
+        .project-card:nth-child(3) { animation-delay: 1.2s; }
+        
+        /* Memory Insights Animation */
+        .memory-insights {
+            animation: fadeInRight 1s ease-out 1.4s both;
+        }
+        
+        .insight-item {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .insight-item:hover {
+            transform: translateX(8px);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Staggered Card Animation */
+        .program-card:nth-child(1) { animation: fadeInUp 0.8s ease-out 1.6s both; }
+        .program-card:nth-child(2) { animation: fadeInUp 0.8s ease-out 1.8s both; }
+        .program-card:nth-child(3) { animation: fadeInUp 0.8s ease-out 2.0s both; }
+        .program-card:nth-child(4) { animation: fadeInUp 0.8s ease-out 2.2s both; }
+        
+        /* Enhanced Button Interactions */
+        .upgrade-btn, .new-project-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .upgrade-btn::before, .new-project-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .upgrade-btn:hover::before, .new-project-btn:hover::before {
+            left: 100%;
+        }
+        
+        .upgrade-btn:hover, .new-project-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        /* Progress Bar Animation */
+        .progress-bar {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            transition: width 2s ease-out;
+            animation: shimmer 2s infinite;
+            background-size: 200% 100%;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Responsive Animation Adjustments */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 300;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-name .accent {
+            color: #8B5CF6;
+            font-weight: 400;
+        }
+
+        .tier-badge {
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .upgrade-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 32px;
+        }
+
+        .dashboard-section {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .methodology-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .projects-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .new-project-btn {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #1a1a1a;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .new-project-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            background: #f8f9fa;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .project-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .project-type {
+            font-size: 12px;
+            color: rgba(59, 130, 246, 0.8);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .project-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .programs-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .program-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .program-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .program-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .program-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .memory-insights {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .insight-item {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .insight-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .insight-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .upgrade-section {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .upgrade-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .upgrade-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .upgrade-button {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .upgrade-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="objx-dark-background.svg" alt="OBJX" class="logo-dark" style="width: 40px; height: 40px;">
+                <img src="objx-light-background.svg" alt="OBJX" class="logo-light" style="width: 40px; height: 40px;">
+                <div class="brand-name">
+                    OBJX<span class="accent">Intelligence</span>
+                </div>
+                <div class="tier-badge">TIER 2 - COMPOUND INTELLIGENCE</div>
+            </div>
+            <div class="user-section">
+                <a href="#" class="upgrade-btn">Upgrade to Tier 3</a>
+                <button onclick="logout()" style="background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="dashboard-section">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Apply Systematic Thinking with Memory</h1>
+                <p class="welcome-subtitle">Project organization with compound learning and pattern recognition</p>
+                <p class="methodology-text">clarify • compound • create</p>
+            </div>
+
+            <div class="projects-section">
+                <div class="section-header">
+                    <h2 class="section-title">Your Projects</h2>
+                    <button class="new-project-btn" onclick="createNewProject()">+ New Project</button>
+                </div>
+                <div class="projects-grid" id="projectsGrid">
+                    <div class="project-card" onclick="openProject('sample-1')">
+                        <div class="project-title">Downtown Office Complex</div>
+                        <div class="project-type">PROPERTY INVESTMENT</div>
+                        <div class="project-description">ROI analysis for 50,000 sq ft commercial development with systematic risk assessment.</div>
+                        <div class="project-meta">
+                            <span>Last updated: 2 days ago</span>
+                            <span>85% complete</span>
+                        </div>
+                    </div>
+                    <div class="project-card" onclick="openProject('sample-2')">
+                        <div class="project-title">Residential Code Review</div>
+                        <div class="project-type">CODE ANALYSIS</div>
+                        <div class="project-description">Municipal compliance review for 24-unit residential development project.</div>
+                        <div class="project-meta">
+                            <span>Last updated: 1 week ago</span>
+                            <span>Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="programs-section">
+                <div class="section-header">
+                    <h2 class="section-title">Enhanced Programs</h2>
+                </div>
+                <div class="programs-grid">
+                    <div class="program-card" onclick="openProgram('advanced-code-review')">
+                        <div class="program-icon">🏗️</div>
+                        <div class="program-title">Advanced Code Review</div>
+                        <div class="program-description">Project-specific analysis with memory patterns and systematic compliance tracking.</div>
+                    </div>
+                    <div class="program-card" onclick="openProgram('agent-behaviors')">
+                        <div class="program-icon">🤖</div>
+                        <div class="program-title">Agent Behaviors</div>
+                        <div class="program-description">Proactive monitoring, email filtering, and site scraping with systematic intelligence.</div>
+                    </div>
+                    <div class="program-card" onclick="openProgram('feasibility-analysis')">
+                        <div class="program-icon">📊</div>
+                        <div class="program-title">Feasibility Analysis Level 1</div>
+                        <div class="program-description">Property analysis with compound learning and pattern recognition capabilities.</div>
+                    </div>
+                    <div class="program-card" onclick="openProgram('developer-tools')">
+                        <div class="program-icon">🛠️</div>
+                        <div class="program-title">Developer Tools</div>
+                        <div class="program-description">Site selection, financial modeling, and timeline optimization with systematic approach.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="memory-insights">
+                <h3 class="section-title">Memory-Driven Insights</h3>
+                <div class="insight-item">
+                    <div class="insight-title">Pattern Recognition</div>
+                    <div class="insight-description">Similar projects show 23% higher ROI when zoning variance is obtained early in the process.</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-title">Proactive Recommendation</div>
+                    <div class="insight-description">Based on your project history, consider environmental impact assessment for the downtown complex.</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-title">Compound Learning</div>
+                    <div class="insight-description">Your systematic thinking accuracy has improved 34% over the last 30 days.</div>
+                </div>
+            </div>
+
+            <div class="upgrade-section">
+                <h3 class="upgrade-title">Ready for Complete Methodology?</h3>
+                <p class="upgrade-description">
+                    Upgrade to Tier 3 for full document creation, agent orchestration, and complete business automation.
+                </p>
+                <a href="#" class="upgrade-button">Upgrade to Tier 3</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function openProject(projectId) {
+            window.location.href = `/project/${projectId}?tier=2`;
+        }
+
+        function createNewProject() {
+            window.location.href = `/project/new?tier=2`;
+        }
+
+        function openProgram(programId) {
+            window.location.href = `/chat?program=${programId}&tier=2`;
+        }
+
+        function logout() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
+

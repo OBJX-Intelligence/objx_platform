@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJX Intelligence - Staff Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .accent {
+            color: #8B5CF6;
+        }
+
+        .staff-badge {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .dashboard-section {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .command-center {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .command-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 0%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .command-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+        }
+
+        .methodology-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .staff-capabilities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .capability-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .capability-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.1) 0%, rgba(4, 120, 87, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .capability-card:hover::before {
+            opacity: 1;
+        }
+
+        .capability-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(5, 150, 105, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(5, 150, 105, 0.15),
+                0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* PROJECT MANAGEMENT CARD - MAIN FEATURE */
+        .project-management-card {
+            grid-column: span 2;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-management-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .project-management-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-management-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(220, 38, 38, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(220, 38, 38, 0.15),
+                0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 16px;
+        }
+
+        .card-title-section {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .project-status-indicators {
+            display: flex;
+            gap: 12px;
+        }
+
+        .critical-deadline-indicator,
+        .active-projects-indicator {
+            text-align: center;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .deadline-count,
+        .project-count {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .deadline-label,
+        .project-label {
+            display: block;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+        }
+
+        .critical-deadline-indicator {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .deadline-count {
+            color: #EF4444;
+        }
+
+        .card-content {
+            margin-bottom: 20px;
+        }
+
+        .project-overview {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .overview-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .overview-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .overview-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .overview-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2px;
+        }
+
+        .overview-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .project-quick-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .quick-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(220, 38, 38, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .real-time-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #22C55E;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+
+        .real-time-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .card-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .project-management-card:hover .card-arrow {
+            color: rgba(220, 38, 38, 0.8);
+            transform: translateX(4px);
+        }
+
+        .capability-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .capability-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .capability-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .google-workspace {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .workspace-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .workspace-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+        }
+
+        .workspace-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .workspace-text {
+            flex: 1;
+        }
+
+        .workspace-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .workspace-status {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .agent-insights {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .insight-item {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid #059669;
+        }
+
+        .insight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .insight-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .staff-capabilities {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-management-card {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="objx-dark-background.svg" alt="OBJX" class="logo-marker" style="width: 40px; height: 40px;">
+                <div class="brand-name">
+                    OBJX<span class="accent">Intelligence</span>
+                </div>
+                <div class="staff-badge">STAFF - PROJECT MANAGEMENT</div>
+            </div>
+            <div class="user-section">
+                <button onclick="logout()" style="background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="dashboard-section">
+            <div class="command-center">
+                <h1 class="command-title">Staff Project Management Hub</h1>
+                <p class="command-subtitle">Google Workspace integrated project and task management with agent intelligence</p>
+                <p class="methodology-text">organize • execute • deliver</p>
+            </div>
+
+            <div class="staff-capabilities">
+                <!-- PROJECT MANAGEMENT CARD - MAIN FEATURE -->
+                <div class="project-management-card" onclick="openProjectManagement()">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-section">
+                            <h3 class="card-title">Project Management</h3>
+                            <p class="card-subtitle">Google Workspace Integration</p>
+                        </div>
+                        <div class="project-status-indicators">
+                            <div class="critical-deadline-indicator" id="criticalDeadlineCount">
+                                <span class="deadline-count">3</span>
+                                <span class="deadline-label">Critical</span>
+                            </div>
+                            <div class="active-projects-indicator" id="activeProjectCount">
+                                <span class="project-count">12</span>
+                                <span class="project-label">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="project-overview">
+                            <div class="overview-item">
+                                <div class="overview-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="overview-text">
+                                    <span class="overview-label">Next Deadline</span>
+                                    <span class="overview-value" id="nextDeadline">City Permit - 3 days</span>
+                                </div>
+                            </div>
+                            
+                            <div class="overview-item">
+                                <div class="overview-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M23 21v-2a4 4 0 00-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="overview-text">
+                                    <span class="overview-label">Team Utilization</span>
+                                    <span class="overview-value" id="teamUtilization">87% Capacity</span>
+                                </div>
+                            </div>
+                            
+                            <div class="overview-item">
+                                <div class="overview-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="overview-text">
+                                    <span class="overview-label">Agent Insights</span>
+                                    <span class="overview-value" id="agentInsights">5 Recommendations</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-quick-actions">
+                            <button class="quick-action-btn" onclick="createNewProject(event)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                New Project
+                            </button>
+                            <button class="quick-action-btn" onclick="viewAgentInsights(event)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 19c-5 0-8-3-8-8s3-8 8-8 8 3 8 8-3 8-8 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17.5 17.5L23 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Insights
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="real-time-indicator">
+                            <div class="pulse-dot"></div>
+                            <span class="real-time-text">Live Agent Monitoring</span>
+                        </div>
+                        <div class="card-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TASK MANAGEMENT -->
+                <div class="capability-card" onclick="openTaskManagement()">
+                    <div class="capability-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Task Management</h3>
+                    <p class="capability-description">Organize and track tasks with team collaboration, deadlines, and automated progress monitoring.</p>
+                </div>
+
+                <!-- FEASIBILITY STUDIES -->
+                <div class="capability-card" onclick="openFeasibilityStudies()">
+                    <div class="capability-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 11H5a2 2 0 00-2 2v7a2 2 0 002 2h4a2 2 0 002-2v-7a2 2 0 00-2-2zM21 11h-4a2 2 0 00-2 2v7a2 2 0 002 2h4a2 2 0 002-2v-7a2 2 0 00-2-2zM15 3H9a2 2 0 00-2 2v4a2 2 0 002 2h6a2 2 0 002-2V5a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Feasibility Studies</h3>
+                    <p class="capability-description">Highest tier feasibility analysis with comprehensive market research, financial modeling, and risk assessment.</p>
+                </div>
+
+                <!-- BUILDING/MUNICIPAL CODE REVIEW -->
+                <div class="capability-card" onclick="openCodeReview()">
+                    <div class="capability-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="capability-title">Building & Municipal Code Review</h3>
+                    <p class="capability-description">Comprehensive code compliance analysis with automated municipal requirement checking and permit guidance.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="google-workspace">
+                <h3 class="section-title">Google Workspace</h3>
+                <div class="workspace-item" onclick="openGmail()">
+                    <div class="workspace-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="workspace-text">
+                        <div class="workspace-label">Gmail</div>
+                        <div class="workspace-status">12 project emails</div>
+                    </div>
+                </div>
+                
+                <div class="workspace-item" onclick="openGoogleDrive()">
+                    <div class="workspace-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="workspace-text">
+                        <div class="workspace-label">Google Drive</div>
+                        <div class="workspace-status">Project files organized</div>
+                    </div>
+                </div>
+                
+                <div class="workspace-item" onclick="openGoogleDocs()">
+                    <div class="workspace-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="workspace-text">
+                        <div class="workspace-label">Google Docs</div>
+                        <div class="workspace-status">Collaborative editing</div>
+                    </div>
+                </div>
+                
+                <div class="workspace-item" onclick="openGoogleCalendar()">
+                    <div class="workspace-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="workspace-text">
+                        <div class="workspace-label">Google Calendar</div>
+                        <div class="workspace-status">Project schedules</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="agent-insights">
+                <h3 class="section-title">Agent Insights</h3>
+                <div class="insight-item">
+                    <div class="insight-title">City Permit Update</div>
+                    <div class="insight-description">Grand Avenue project permit approved. Next phase can begin immediately.</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-title">Team Optimization</div>
+                    <div class="insight-description">Carolina available for new assignment. Recommend allocation to Downtown Office project.</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-title">Deadline Alert</div>
+                    <div class="insight-description">MEP review deadline approaching for 3 projects. Automated reminders sent to team.</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-title">File Organization</div>
+                    <div class="insight-description">New city documents automatically organized in Google Drive project folders.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Staff Dashboard JavaScript Functions
+        
+        function openProjectManagement() {
+            // Would open project management interface
+            console.log('Opening project management');
+        }
+        
+        function openTaskManagement() {
+            // Would open task management interface
+            console.log('Opening task management');
+        }
+        
+        function openFeasibilityStudies() {
+            // Would open feasibility studies interface
+            console.log('Opening feasibility studies');
+        }
+        
+        function openCodeReview() {
+            // Would open building/municipal code review
+            console.log('Opening code review');
+        }
+        
+        function createNewProject(event) {
+            event.stopPropagation();
+            console.log('Creating new project');
+        }
+        
+        function viewAgentInsights(event) {
+            event.stopPropagation();
+            console.log('Viewing agent insights');
+        }
+        
+        function openGmail() {
+            // Would integrate with Gmail API
+            console.log('Opening Gmail integration');
+        }
+        
+        function openGoogleDrive() {
+            // Would integrate with Google Drive API
+            console.log('Opening Google Drive integration');
+        }
+        
+        function openGoogleDocs() {
+            // Would integrate with Google Docs API
+            console.log('Opening Google Docs integration');
+        }
+        
+        function openGoogleCalendar() {
+            // Would integrate with Google Calendar API
+            console.log('Opening Google Calendar integration');
+        }
+        
+        function logout() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
+

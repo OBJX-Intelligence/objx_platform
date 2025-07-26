@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Chat Interface</title>
+    <style>
+        /* Universal Chat Interface - Sophisticated Design */
+        .chat-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .chat-toggle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .chat-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            border-radius: 50%;
+        }
+
+        .chat-toggle-icon {
+            width: 28px;
+            height: 28px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-toggle.active .chat-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .chat-notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 400px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-window.active {
+            display: flex;
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .chat-header {
+            padding: 20px 24px 16px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .chat-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .chat-subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .chat-tier-badge {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 2px;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        @keyframes messageSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.assistant .message-content {
+            background: #F8FAFC;
+            color: #1E293B;
+            border: 1px solid #E2E8F0;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-timestamp {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 4px;
+            padding: 0 4px;
+        }
+
+        .message.user .message-timestamp {
+            text-align: right;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            max-width: 85%;
+            align-self: flex-start;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #8B5CF6;
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typingDot {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-input-container {
+            padding: 16px 20px 20px;
+            background: white;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .chat-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            min-height: 44px;
+            max-height: 120px;
+            padding: 12px 16px;
+            border: 1px solid #E2E8F0;
+            border-radius: 22px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #FAFBFC;
+        }
+
+        .chat-input:focus {
+            border-color: #8B5CF6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .chat-input::placeholder {
+            color: #94A3B8;
+        }
+
+        .chat-send-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .chat-send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        .chat-send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chat-send-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .agent-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .agent-option {
+            padding: 6px 12px;
+            background: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #475569;
+        }
+
+        .agent-option:hover {
+            background: #E2E8F0;
+        }
+
+        .agent-option.active {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            border-color: #8B5CF6;
+        }
+
+        .memory-indicator {
+            position: absolute;
+            top: 12px;
+            right: 50px;
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .memory-indicator.active {
+            opacity: 1;
+        }
+
+        /* Dark mode support */
+        [data-theme="dark"] .chat-window {
+            background: rgba(30, 41, 59, 0.95);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        [data-theme="dark"] .message.assistant .message-content {
+            background: #334155;
+            color: #F1F5F9;
+            border-color: #475569;
+        }
+
+        [data-theme="dark"] .chat-input {
+            background: #334155;
+            border-color: #475569;
+            color: #F1F5F9;
+        }
+
+        [data-theme="dark"] .chat-input:focus {
+            background: #475569;
+        }
+
+        [data-theme="dark"] .chat-input-container {
+            background: #1E293B;
+            border-color: #475569;
+        }
+
+        [data-theme="dark"] .agent-option {
+            background: #334155;
+            border-color: #475569;
+            color: #CBD5E1;
+        }
+
+        [data-theme="dark"] .agent-option:hover {
+            background: #475569;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .chat-window {
+                width: calc(100vw - 48px);
+                height: calc(100vh - 120px);
+                bottom: 80px;
+                right: 24px;
+            }
+            
+            .chat-container {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Universal Chat Interface Component -->
+    <div class="chat-container" id="chatContainer">
+        <!-- Chat Toggle Button -->
+        <button class="chat-toggle" id="chatToggle">
+            <svg class="chat-toggle-icon" viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+            </svg>
+            <div class="chat-notification-badge" id="chatBadge" style="display: none;">3</div>
+        </button>
+
+        <!-- Chat Window -->
+        <div class="chat-window" id="chatWindow">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-header-content">
+                    <h3 class="chat-title">OBJX Intelligence</h3>
+                    <p class="chat-subtitle">clarify • compound • create</p>
+                </div>
+                <div class="chat-tier-badge" id="tierBadge">TIER 3</div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome Message -->
+                <div class="message assistant">
+                    <div class="message-content">
+                        Welcome to OBJX Intelligence! I'm your systematic thinking partner. I'll help you clarify your goals, compound your intelligence, and create actionable solutions using our proven methodology.
+                        
+                        What challenge would you like to work on today?
+                    </div>
+                    <div class="message-timestamp">Just now</div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator" id="typingIndicator">
+                    <span style="font-size: 12px; color: #64748B;">AI is thinking</span>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <!-- Agent Selector -->
+                <div class="agent-selector" id="agentSelector">
+                    <div class="agent-option active" data-agent="systematic_thinking">Systematic Thinking</div>
+                    <div class="agent-option" data-agent="memory_enhanced">Memory Enhanced</div>
+                    <div class="agent-option" data-agent="document_creation">Document Creation</div>
+                </div>
+
+                <!-- Input Wrapper -->
+                <div class="chat-input-wrapper">
+                    <textarea 
+                        class="chat-input" 
+                        id="chatInput" 
+                        placeholder="Ask me anything about your project, challenge, or goal..."
+                        rows="1"
+                    ></textarea>
+                    <button class="chat-send-button" id="chatSendButton">
+                        <svg class="chat-send-icon" viewBox="0 0 24 24">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                    <div class="memory-indicator" id="memoryIndicator"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Universal Chat Interface JavaScript
+        class UniversalChatInterface {
+            constructor() {
+                this.isOpen = false;
+                this.currentAgent = 'systematic_thinking';
+                this.userTier = 'tier_3'; // This would be set dynamically
+                this.conversationHistory = [];
+                
+                this.initializeElements();
+                this.bindEvents();
+                this.loadUserTier();
+                this.loadAgentOptions();
+            }
+
+            initializeElements() {
+                this.chatToggle = document.getElementById('chatToggle');
+                this.chatWindow = document.getElementById('chatWindow');
+                this.chatMessages = document.getElementById('chatMessages');
+                this.chatInput = document.getElementById('chatInput');
+                this.chatSendButton = document.getElementById('chatSendButton');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                this.agentSelector = document.getElementById('agentSelector');
+                this.tierBadge = document.getElementById('tierBadge');
+                this.memoryIndicator = document.getElementById('memoryIndicator');
+                this.chatBadge = document.getElementById('chatBadge');
+            }
+
+            bindEvents() {
+                // Toggle chat window
+                this.chatToggle.addEventListener('click', () => this.toggleChat());
+
+                // Send message
+                this.chatSendButton.addEventListener('click', () => this.sendMessage());
+                
+                // Enter key to send
+                this.chatInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                // Auto-resize textarea
+                this.chatInput.addEventListener('input', () => this.autoResizeInput());
+
+                // Agent selection
+                this.agentSelector.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('agent-option')) {
+                        this.selectAgent(e.target);
+                    }
+                });
+
+                // Close chat when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.chat-container') && this.isOpen) {
+                        this.closeChat();
+                    }
+                });
+            }
+
+            toggleChat() {
+                if (this.isOpen) {
+                    this.closeChat();
+                } else {
+                    this.openChat();
+                }
+            }
+
+            openChat() {
+                this.isOpen = true;
+                this.chatToggle.classList.add('active');
+                this.chatWindow.classList.add('active');
+                this.chatInput.focus();
+                this.hideBadge();
+            }
+
+            closeChat() {
+                this.isOpen = false;
+                this.chatToggle.classList.remove('active');
+                this.chatWindow.classList.remove('active');
+            }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+
+                // Add user message
+                this.addMessage('user', message);
+                this.chatInput.value = '';
+                this.autoResizeInput();
+
+                // Show typing indicator
+                this.showTyping();
+
+                try {
+                    // Send to backend
+                    const response = await this.callChatAPI(message);
+                    
+                    // Hide typing indicator
+                    this.hideTyping();
+                    
+                    // Add assistant response
+                    this.addMessage('assistant', response.response);
+                    
+                    // Update memory indicator
+                    if (response.memories_created && response.memories_created.length > 0) {
+                        this.showMemoryIndicator();
+                    }
+
+                } catch (error) {
+                    this.hideTyping();
+                    this.addMessage('assistant', 'I apologize, but I\'m experiencing technical difficulties. Please try again.');
+                    console.error('Chat API error:', error);
+                }
+            }
+
+            async callChatAPI(message) {
+                // This would call the actual backend API
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        user_tier: this.userTier,
+                        agent_type: this.currentAgent,
+                        conversation_history: this.conversationHistory.slice(-5)
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                return await response.json();
+            }
+
+            addMessage(type, content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}`;
+                
+                const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">${this.formatMessage(content)}</div>
+                    <div class="message-timestamp">${timestamp}</div>
+                `;
+
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+
+                // Store in conversation history
+                if (type === 'user') {
+                    this.conversationHistory.push({user: content, assistant: null});
+                } else {
+                    if (this.conversationHistory.length > 0) {
+                        this.conversationHistory[this.conversationHistory.length - 1].assistant = content;
+                    }
+                }
+            }
+
+            formatMessage(content) {
+                // Basic formatting for links, bold, etc.
+                return content
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            showTyping() {
+                this.typingIndicator.classList.add('active');
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                this.typingIndicator.classList.remove('active');
+            }
+
+            showMemoryIndicator() {
+                this.memoryIndicator.classList.add('active');
+                setTimeout(() => {
+                    this.memoryIndicator.classList.remove('active');
+                }, 3000);
+            }
+
+            showBadge(count = 1) {
+                this.chatBadge.textContent = count;
+                this.chatBadge.style.display = 'flex';
+            }
+
+            hideBadge() {
+                this.chatBadge.style.display = 'none';
+            }
+
+            selectAgent(agentElement) {
+                // Remove active class from all agents
+                this.agentSelector.querySelectorAll('.agent-option').forEach(el => {
+                    el.classList.remove('active');
+                });
+
+                // Add active class to selected agent
+                agentElement.classList.add('active');
+                this.currentAgent = agentElement.dataset.agent;
+            }
+
+            autoResizeInput() {
+                this.chatInput.style.height = 'auto';
+                this.chatInput.style.height = Math.min(this.chatInput.scrollHeight, 120) + 'px';
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+                }, 100);
+            }
+
+            loadUserTier() {
+                // This would be loaded from user session/API
+                const tierMap = {
+                    'tier_1': 'TIER 1',
+                    'tier_2': 'TIER 2', 
+                    'tier_3': 'TIER 3',
+                    'staff': 'STAFF',
+                    'admin': 'ADMIN'
+                };
+                
+                this.tierBadge.textContent = tierMap[this.userTier] || 'TIER 1';
+            }
+
+            loadAgentOptions() {
+                // This would load available agents based on user tier
+                const agentsByTier = {
+                    'tier_1': ['systematic_thinking'],
+                    'tier_2': ['systematic_thinking', 'memory_enhanced'],
+                    'tier_3': ['systematic_thinking', 'memory_enhanced', 'document_creation', 'visual_analytics'],
+                    'staff': ['systematic_thinking', 'memory_enhanced', 'project_management'],
+                    'admin': ['systematic_thinking', 'memory_enhanced', 'document_creation', 'visual_analytics', 'system_management']
+                };
+
+                const availableAgents = agentsByTier[this.userTier] || ['systematic_thinking'];
+                
+                // Show/hide agent options based on tier
+                this.agentSelector.querySelectorAll('.agent-option').forEach(el => {
+                    const agentType = el.dataset.agent;
+                    if (availableAgents.includes(agentType)) {
+                        el.style.display = 'block';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+            }
+
+            // Public methods for external integration
+            showNotification(count) {
+                this.showBadge(count);
+            }
+
+            addSystemMessage(message) {
+                this.addMessage('assistant', message);
+            }
+
+            setUserTier(tier) {
+                this.userTier = tier;
+                this.loadUserTier();
+                this.loadAgentOptions();
+            }
+        }
+
+        // Initialize the chat interface
+        const universalChat = new UniversalChatInterface();
+
+        // Export for external use
+        window.UniversalChat = universalChat;
+    </script>
+</body>
+</html>
+
